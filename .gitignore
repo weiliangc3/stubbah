@@ -102,3 +102,12 @@ dist
 
 # TernJS port file
 .tern-port
+
+# IDE things
+.vscode/
+
+# Because Reasons
+package-lock.json
+build/
+config/server.cert
+config/server.key
