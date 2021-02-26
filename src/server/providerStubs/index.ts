@@ -1,7 +1,10 @@
-import { PactStub } from "../../types";
+import fs from 'fs';
+import { PactStub } from "../types/pactTypes";
 import ProviderStub from "./ProviderStub";
 
 const providerStubs: Record<string, ProviderStub> = {};
+
+loadLocalPactStubFiles();
 
 function loadPact(pact: PactStub, route: string): boolean {
   if (providerStubs[route]) {
@@ -16,6 +19,14 @@ function loadPact(pact: PactStub, route: string): boolean {
 
   providerStubs[route] = new ProviderStub(pact.provider.name, pact.interactions);
   return true;
+}
+
+function loadLocalPactStubFiles() {
+  fs.readFile('stubs/sample.json', (err, data) => {
+    if (err) throw err;
+    let pact: PactStub = JSON.parse(data.toString());
+    loadPact(pact, 'zoo');
+  });
 }
 
 function addStateForProviderByRoute(state: string, route: string) {

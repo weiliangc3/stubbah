@@ -1,5 +1,5 @@
 import express from 'express';
-import { ExpectedResponse } from '../../types';
+import { ExpectedResponse } from '../types/pactTypes';
 
 export default (responseToEmulate: ExpectedResponse, res: express.Response): void => {
   res

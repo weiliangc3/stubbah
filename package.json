@@ -4,12 +4,13 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "npm run clean && npm run build && node build",
+    "start": "npm run clean && npm run build && node dist/server/index.js",
     "start:https": "npm run clean && npm run build && node build --https",
     "start:watch": "nodemon",
-    "build": "npm run build:types && npm run build:js",
+    "build": "npm run build:static && npm run build:types && npm run build:js",
+    "build:static": "node config/copyStaticFiles.js",
     "build:types": "tsc --emitDeclarationOnly",
-    "build:js": "babel src --out-dir build --extensions \".ts,.tsx\" --source-maps inline",
+    "build:js": "babel src --out-dir dist --extensions \".ts,.tsx\" --source-maps inline",
     "clean": "node config/cleanFolder.js",
     "lint": "eslint 'src/*' --fix",
     "type-check": "tsc --noEmit",
@@ -18,7 +19,12 @@
   "author": "Wei",
   "license": "ISC",
   "dependencies": {
+    "@babel/plugin-proposal-object-rest-spread": "^7.13.0",
+    "babel-loader": "^8.2.2",
     "express": "^4.17.1",
+    "fork-ts-checker-webpack-plugin": "^6.1.0",
+    "webpack": "^5.24.2",
+    "webpack-cli": "^4.5.0",
     "yargs": "^15.4.1"
   },
   "devDependencies": {

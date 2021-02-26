@@ -1,4 +1,4 @@
-import { Interactions } from "../../types";
+import { Interactions } from "../types/pactTypes";
 
 export default class ProviderStub {
   provider: string;

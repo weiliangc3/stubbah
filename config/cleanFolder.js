@@ -1,6 +1,6 @@
 const fs = require('fs');
 
-const folderToClean = './build';
+const folderToClean = './dist';
 
 function deleteFolderRecursive(path) {
   if (fs.existsSync(path) && fs.lstatSync(path).isDirectory()) {
