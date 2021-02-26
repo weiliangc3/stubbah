@@ -1,6 +1,4 @@
 {
-  "presets": ["@babel/preset-typescript", "@babel/preset-env"],
-  "plugins": [
-    "@babel/proposal-class-properties"
-  ]
+  "presets": ["@nrwl/web/babel"],
+  "babelrcRoots": ["*"]
 }

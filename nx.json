@@ -1,0 +1,24 @@
+{
+  "implicitDependencies": {
+    "workspace.json": "*",
+    "package.json": { "dependencies": "*", "devDependencies": "*" },
+    "tsconfig.base.json": "*",
+    "tslint.json": "*",
+    ".eslintrc.json": "*",
+    "nx.json": "*"
+  },
+  "affected": { "defaultBase": "master" },
+  "npmScope": "stubbah",
+  "tasksRunnerOptions": {
+    "default": {
+      "runner": "@nrwl/workspace/tasks-runners/default",
+      "options": { "cacheableOperations": ["build", "lint", "test", "e2e"] }
+    }
+  },
+  "workspaceLayout": { "appsDir": "packages", "libsDir": "packages" },
+  "projects": {
+    "stub-ui": { "tags": [] },
+    "stub-ui-e2e": { "tags": [], "implicitDependencies": ["stub-ui"] },
+    "stub-server": { "tags": [] }
+  }
+}

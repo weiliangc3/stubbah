@@ -1,0 +1,10 @@
+{
+  "/counter": {
+    "target": "http://localhost:3000/",
+    "secure": false
+  },
+  "/control": {
+    "target": "http://localhost:3000/",
+    "secure": false
+  }
+}

@@ -1,0 +1,193 @@
+{
+  "version": 2,
+  "cli": {
+    "defaultCollection": "@nrwl/react"
+  },
+  "defaultProject": "stub-ui",
+  "generators": {
+    "@nrwl/react": {
+      "application": {
+        "style": "none",
+        "linter": "eslint",
+        "babel": true
+      },
+      "component": {
+        "style": "none"
+      },
+      "library": {
+        "style": "none",
+        "linter": "eslint"
+      }
+    }
+  },
+  "projects": {
+    "stub-ui": {
+      "root": "packages/stub-ui",
+      "sourceRoot": "packages/stub-ui/src",
+      "projectType": "application",
+      "targets": {
+        "build": {
+          "executor": "@nrwl/web:build",
+          "outputs": [
+            "{options.outputPath}"
+          ],
+          "options": {
+            "outputPath": "dist/packages/stub-ui",
+            "index": "packages/stub-ui/src/index.html",
+            "main": "packages/stub-ui/src/main.tsx",
+            "polyfills": "packages/stub-ui/src/polyfills.ts",
+            "tsConfig": "packages/stub-ui/tsconfig.app.json",
+            "assets": [
+              "packages/stub-ui/src/favicon.ico",
+              "packages/stub-ui/src/assets"
+            ],
+            "styles": [],
+            "scripts": [],
+            "webpackConfig": "@nrwl/react/plugins/webpack"
+          },
+          "configurations": {
+            "production": {
+              "fileReplacements": [
+                {
+                  "replace": "packages/stub-ui/src/environments/environment.ts",
+                  "with": "packages/stub-ui/src/environments/environment.prod.ts"
+                }
+              ],
+              "optimization": true,
+              "outputHashing": "all",
+              "sourceMap": false,
+              "extractCss": true,
+              "namedChunks": false,
+              "extractLicenses": true,
+              "vendorChunk": false,
+              "budgets": [
+                {
+                  "type": "initial",
+                  "maximumWarning": "2mb",
+                  "maximumError": "5mb"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "executor": "@nrwl/web:dev-server",
+          "options": {
+            "buildTarget": "stub-ui:build",
+            "proxyConfig": "packages/stub-ui/proxy.conf.json"
+          },
+          "configurations": {
+            "production": {
+              "buildTarget": "stub-ui:build:production"
+            }
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "packages/stub-ui/**/*.{ts,tsx,js,jsx}"
+            ]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": [
+            "coverage/packages/stub-ui"
+          ],
+          "options": {
+            "jestConfig": "packages/stub-ui/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "stub-ui-e2e": {
+      "root": "packages/stub-ui-e2e",
+      "sourceRoot": "packages/stub-ui-e2e/src",
+      "projectType": "application",
+      "targets": {
+        "e2e": {
+          "executor": "@nrwl/cypress:cypress",
+          "options": {
+            "cypressConfig": "packages/stub-ui-e2e/cypress.json",
+            "tsConfig": "packages/stub-ui-e2e/tsconfig.e2e.json",
+            "devServerTarget": "stub-ui:serve"
+          },
+          "configurations": {
+            "production": {
+              "devServerTarget": "stub-ui:serve:production"
+            }
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "packages/stub-ui-e2e/**/*.{js,ts}"
+            ]
+          }
+        }
+      }
+    },
+    "stub-server": {
+      "root": "packages/stub-server",
+      "sourceRoot": "packages/stub-server/src",
+      "projectType": "application",
+      "prefix": "stub-server",
+      "targets": {
+        "build": {
+          "executor": "@nrwl/node:build",
+          "outputs": [
+            "{options.outputPath}"
+          ],
+          "options": {
+            "outputPath": "dist/packages/stub-server",
+            "main": "packages/stub-server/src/main.ts",
+            "tsConfig": "packages/stub-server/tsconfig.app.json",
+            "assets": [
+              "packages/stub-server/src/assets"
+            ]
+          },
+          "configurations": {
+            "production": {
+              "optimization": true,
+              "extractLicenses": true,
+              "inspect": false,
+              "fileReplacements": [
+                {
+                  "replace": "packages/stub-server/src/environments/environment.ts",
+                  "with": "packages/stub-server/src/environments/environment.prod.ts"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "executor": "@nrwl/node:execute",
+          "options": {
+            "buildTarget": "stub-server:build"
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "packages/stub-server/**/*.ts"
+            ]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": [
+            "coverage/packages/stub-server"
+          ],
+          "options": {
+            "jestConfig": "packages/stub-server/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    }
+  }
+}
