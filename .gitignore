@@ -111,3 +111,4 @@ package-lock.json
 build/
 config/server.cert
 config/server.key
+lib/

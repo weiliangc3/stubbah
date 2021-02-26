@@ -1,5 +1,5 @@
 import startServer from './server';
-import samplePact from '../stubs/sample.json';
+import samplePact from '../../stubs/sample.json';
 import { loadPact, addStateForProviderByRoute } from './providerStubs';
 
 const app = startServer;

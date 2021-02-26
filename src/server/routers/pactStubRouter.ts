@@ -1,7 +1,7 @@
 /* eslint-disable no-prototype-builtins */
 import { Router } from 'express';
-import { getProviderStubsByRoute } from '../../providerStubs';
-import emulateResponse from '../../utils/emulateResponse';
+import { getProviderStubByRoute } from '../providerStubs';
+import emulateResponse from '../utils/emulateResponse';
 
 const router = Router();
 
@@ -13,11 +13,12 @@ router.use((req, res, next) => {
 router.get('*', (req, res) => {
   const URI = req.url;
   const root = URI.split(/\//)[1];
-  const providerStubs = getProviderStubsByRoute(root);
+  const providerStubs = getProviderStubByRoute(root);
 
   if (providerStubs) {
     const pathRegex = new RegExp(`${root}/(.+)`);
-    const path = `/${pathRegex.exec(URI)[1]}`;
+    const regexArray = pathRegex.exec(URI);
+    const path = `/${regexArray ? regexArray[1] : ''}`;
 
     const providerInteractions = providerStubs.interactions;
     const providerActiveStates = providerStubs.activeStates;
