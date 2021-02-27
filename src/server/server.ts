@@ -3,7 +3,7 @@ import https from 'https';
 import fs from 'fs';
 import { argv } from 'yargs';
 import path from 'path';
-import manageApiRouter from './routers/manageApiRouter';
+import manageApiRouter from './routers/managementRouters/mainManagementRouter';
 import manageRouter from './routers/manageRouter';
 import counterRouter from './routers/counterRouter';
 import pactStubRouter from './routers/pactStubRouter';

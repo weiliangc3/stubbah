@@ -1,8 +1,18 @@
-export interface PactStub {
+export default class Pact {
   provider: Provider;
+
   consumer: Consumer;
-  interactions : Interactions[];
-  metadata: Record<string, unknown>
+
+  interactions : Interaction[];
+
+  metadata: Record<string, unknown>;
+
+  constructor(jsonInput: any) {
+    this.provider = jsonInput.provider;
+    this.consumer = jsonInput.consumer;
+    this.interactions = jsonInput.interactions;
+    this.metadata = jsonInput.metadata;
+  }
 }
 
 export interface Provider {
@@ -13,7 +23,7 @@ export interface Consumer {
   name: string;
 }
 
-export interface Interactions {
+export interface Interaction {
   description: string;
   provider_state: string;
   request: ExpectedRequest;

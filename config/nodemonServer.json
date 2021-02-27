@@ -2,7 +2,7 @@
     "exec": "npm run build:server-types && npm run build:server-js && node dist/server/index.js",
     "ext": "js, html, tsx, ts",
     "watch": [
-        "src/fe/server"
+        "src/server", "src/classes"
     ],
     "ignore": [
         "**/__tests__/**",

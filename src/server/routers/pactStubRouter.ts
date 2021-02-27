@@ -1,6 +1,6 @@
 /* eslint-disable no-prototype-builtins */
 import { Router } from 'express';
-import { getProviderStubByRoute } from '../providerStubs';
+import { getProviderStubByRoute } from '../pactStub/pactStubService';
 import emulateResponse from '../utils/emulateResponse';
 
 const router = Router();
@@ -20,7 +20,7 @@ router.get('*', (req, res) => {
     const regexArray = pathRegex.exec(URI);
     const path = `/${regexArray ? regexArray[1] : ''}`;
 
-    const providerInteractions = providerStubs.interactions;
+    const providerInteractions = providerStubs.getAllInteractions();
     const providerActiveStates = providerStubs.activeStates;
 
     const matchingInteractions = providerInteractions
