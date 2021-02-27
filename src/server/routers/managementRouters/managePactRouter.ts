@@ -3,9 +3,10 @@ import {
 } from 'express';
 import bodyParser from 'body-parser';
 import {
-  addStateForProviderByRoute, getProviderStubByRoute,
-  getProviderStubMap, loadPact, removeStateForProviderByRoute,
-} from '../../pactStub/pactStubService';
+  addStateForProviderByRoute, getProviderStub,
+  getProviderStubMap, loadPact, removeInteractionFromStub,
+  removeProviderStub, removeStateForProviderByRoute,
+} from '../../services/pactStubService';
 import Pact from '../../../classes/Pact';
 
 const router: Router = Router();
@@ -28,7 +29,7 @@ router.post('/:route', bodyParser.json(), (req: Request, res: Response) => {
   }
 
   loadPact(pactStub, route);
-  return res.send(getProviderStubByRoute(route));
+  return res.send(getProviderStub(route));
 });
 
 router.post('/:route/state', bodyParser.text(), (req: Request, res: Response) => {
@@ -42,7 +43,7 @@ router.post('/:route/state', bodyParser.text(), (req: Request, res: Response) =>
   }
 
   addStateForProviderByRoute(req.body, route);
-  return res.send(getProviderStubByRoute(route));
+  return res.send(getProviderStub(route));
 });
 
 router.delete('/:route/state', bodyParser.text(), (req: Request, res: Response) => {
@@ -56,7 +57,35 @@ router.delete('/:route/state', bodyParser.text(), (req: Request, res: Response) 
   }
 
   removeStateForProviderByRoute(req.body, route);
-  return res.send(getProviderStubByRoute(route));
+  return res.send(getProviderStub(route));
+});
+
+router.delete('/:route/interaction/:id', (req: Request, res: Response) => {
+  const { route, id } = req.params;
+  try {
+    if (!route) {
+      throw new Error();
+    }
+  } catch {
+    return res.sendStatus(400);
+  }
+
+  removeInteractionFromStub(route, parseInt(id, 10));
+  return res.send(getProviderStub(route));
+});
+
+router.delete('/:route', (req: Request, res: Response) => {
+  const { route } = req.params;
+  try {
+    if (!route) {
+      throw new Error();
+    }
+  } catch {
+    return res.sendStatus(400);
+  }
+
+  removeProviderStub(route);
+  return res.send(getProviderStub(route));
 });
 
 export default router;

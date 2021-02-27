@@ -26,8 +26,10 @@ To start it on port 3000:
 - Add stubs by folder ✅
 - API to add stubs ✅
 - UI to add stubs ❌
-- API to remove stubs ❌
+- API to remove stubs ✅
 - UI to remove stubs ❌
+- API to remove provider ✅
+- UI to remove provider ❌
 - API to add state of provider ✅
 - UI to add state of provider ❌
 - API to remove state of provider ✅
@@ -60,3 +62,4 @@ To start it on port 3000:
 - Review the https implementation, potentially merge them?
 - Output useful files (what the heck is useful here)
 - Act as a proxy, and record request-response
+- What about... postman? And postman collections?

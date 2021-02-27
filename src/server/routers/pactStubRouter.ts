@@ -1,6 +1,6 @@
 /* eslint-disable no-prototype-builtins */
 import { Router } from 'express';
-import { getProviderStubByRoute } from '../pactStub/pactStubService';
+import { getProviderStub, matchRequestToPact } from '../services/pactStubService';
 import emulateResponse from '../utils/emulateResponse';
 
 const router = Router();
@@ -11,27 +11,14 @@ router.use((req, res, next) => {
 });
 
 router.get('*', (req, res) => {
-  const URI = req.url;
-  const root = URI.split(/\//)[1];
-  const providerStubs = getProviderStubByRoute(root);
+  const uri = req.url;
+  const route = uri.split(/\//)[1];
+  const method = req.method.toLowerCase();
 
-  if (providerStubs) {
-    const pathRegex = new RegExp(`${root}/(.+)`);
-    const regexArray = pathRegex.exec(URI);
-    const path = `/${regexArray ? regexArray[1] : ''}`;
+  const matchedResponse = matchRequestToPact(route, uri, method);
 
-    const providerInteractions = providerStubs.getAllInteractions();
-    const providerActiveStates = providerStubs.activeStates;
-
-    const matchingInteractions = providerInteractions
-      .filter((interaction) => interaction.request.path === path
-        && interaction.request.method.toLowerCase() === req.method.toLowerCase()
-        && providerActiveStates.includes(interaction.provider_state));
-
-    if (matchingInteractions.length > 0) {
-      console.log(`Provider interactions matched with ${matchingInteractions.length} pact(s)`);
-      return emulateResponse(matchingInteractions[0].response, res);
-    }
+  if (matchedResponse) {
+    return emulateResponse(matchedResponse, res);
   }
 
   console.log(`Request unmatched: ${req.method} to ${req.originalUrl}`);

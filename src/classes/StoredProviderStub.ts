@@ -30,6 +30,11 @@ export default class StoredProviderStub {
     this.interactionMap[newIndex] = interaction;
   }
 
+  public removeInteraction(id: number): void {
+    delete this.interactionMap[id];
+    this.interactions = this.interactions.filter((_id) => _id !== id);
+  }
+
   public getAllInteractions(): Interaction[] {
     const interactions: Interaction[] = [];
     this.interactions.forEach((interactionIndex) => {
