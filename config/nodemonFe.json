@@ -1,0 +1,12 @@
+{
+    "exec": "npm run build:fe && node dist/server/index.js",
+    "ext": "js, html, tsx, ts",
+    "watch": [
+        "src/fe"
+    ],
+    "ignore": [
+        "**/__tests__/**",
+        "*.test.js",
+        "*.spec.js"
+    ]
+}

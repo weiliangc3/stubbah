@@ -6,4 +6,4 @@ export default (responseToEmulate: ExpectedResponse, res: express.Response): voi
     .status(responseToEmulate.status)
     .set(responseToEmulate.header)
     .send(responseToEmulate.body);
-}
+};

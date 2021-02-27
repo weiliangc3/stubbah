@@ -1,0 +1,12 @@
+{
+    "exec": "npm run start",
+    "ext": "js, html, tsx, ts",
+    "watch": [
+        "src"
+    ],
+    "ignore": [
+        "**/__tests__/**",
+        "*.test.js",
+        "*.spec.js"
+    ]
+}

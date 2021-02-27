@@ -1,8 +1,10 @@
-import { Interactions } from "../types/pactTypes";
+import { Interactions } from '../types/pactTypes';
 
 export default class ProviderStub {
   provider: string;
+
   interactions : Interactions[];
+
   activeStates: string[];
 
   constructor(provider: string, interactions: Interactions[]) {

@@ -4,7 +4,8 @@ const path = require('path');
 makeDir('dist');
 makeDir('dist/server');
 makeDir('dist/server/assets');
-fs.copyFileSync('src/fe/index.html', 'dist/server/index.html');
+makeDir('dist/server/fe');
+fs.copyFileSync('src/fe/index.html', 'dist/server/fe/index.html');
 copyFolderRecursiveSync('src/fe/assets', 'dist/server');
 
 

@@ -2,7 +2,9 @@ import express from 'express';
 import https from 'https';
 import fs from 'fs';
 import { argv } from 'yargs';
-import controlRouter from './routers/controlRouter';
+import path from 'path';
+import manageApiRouter from './routers/manageApiRouter';
+import manageRouter from './routers/manageRouter';
 import counterRouter from './routers/counterRouter';
 import pactStubRouter from './routers/pactStubRouter';
 import fallbackHandler from './fallbackHandler';
@@ -12,7 +14,12 @@ const app = express();
 const httpsEnabled = argv.https || false;
 const portNumber = argv.port || 3000;
 
-app.use('/control', controlRouter);
+app.use('/assets', express.static(path.join(__dirname, 'assets')));
+app.get('/', (req, res) => {
+  res.redirect('/manage');
+});
+app.use('/manage', manageRouter);
+app.use('/manage-api', manageApiRouter);
 app.use('/counter', counterRouter);
 app.use('/pact-stub', pactStubRouter);
 
