@@ -1,15 +1,15 @@
-import { Interaction } from './Pact';
+import { PactInteraction } from './types';
 
 export default class StoredProviderStub {
   provider: string;
 
   interactions : number[];
 
-  interactionMap: Record<number, Interaction>;
+  interactionMap: Record<number, PactInteraction>;
 
   activeStates: string[];
 
-  constructor(provider: string, interactions: Interaction[]) {
+  constructor(provider: string, interactions: PactInteraction[]) {
     this.provider = provider;
     this.interactions = [];
     this.interactionMap = {};
@@ -19,7 +19,7 @@ export default class StoredProviderStub {
     this.activeStates = [];
   }
 
-  public addInteraction(interaction: Interaction): void {
+  public addInteraction(interaction: PactInteraction): void {
     let newIndex: number;
     if (this.interactions.length === 0) {
       newIndex = 0;
@@ -35,8 +35,8 @@ export default class StoredProviderStub {
     this.interactions = this.interactions.filter((_id) => _id !== id);
   }
 
-  public getAllInteractions(): Interaction[] {
-    const interactions: Interaction[] = [];
+  public getAllInteractions(): PactInteraction[] {
+    const interactions: PactInteraction[] = [];
     this.interactions.forEach((interactionIndex) => {
       interactions.push(this.interactionMap[interactionIndex]);
     });

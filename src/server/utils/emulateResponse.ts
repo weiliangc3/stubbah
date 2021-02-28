@@ -1,7 +1,7 @@
 import express from 'express';
-import { ExpectedResponse } from '../../classes/Pact';
+import { StubResponse } from '../../classes/types';
 
-export default (responseToEmulate: ExpectedResponse, res: express.Response): void => {
+export default (responseToEmulate: StubResponse, res: express.Response): void => {
   res
     .status(responseToEmulate.status)
     .set(responseToEmulate.header)

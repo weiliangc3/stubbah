@@ -1,9 +1,11 @@
+import { PactConsumer, PactInteraction, PactProvider } from './types';
+
 export default class Pact {
-  provider: Provider;
+  provider: PactProvider;
 
-  consumer: Consumer;
+  consumer: PactConsumer;
 
-  interactions : Interaction[];
+  interactions : PactInteraction[];
 
   metadata: Record<string, unknown>;
 
@@ -13,32 +15,4 @@ export default class Pact {
     this.interactions = jsonInput.interactions;
     this.metadata = jsonInput.metadata;
   }
-}
-
-export interface Provider {
-  name: string;
-}
-
-export interface Consumer {
-  name: string;
-}
-
-export interface Interaction {
-  description: string;
-  provider_state: string;
-  request: ExpectedRequest;
-  response: ExpectedResponse;
-}
-
-export interface ExpectedRequest {
-  method: string;
-  path: string;
-  headers?: Record<string, unknown>;
-  body?: any;
-}
-
-export interface ExpectedResponse {
-  status: number;
-  header?: Record<string, unknown>;
-  body?: any;
 }

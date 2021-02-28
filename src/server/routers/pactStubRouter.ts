@@ -1,21 +1,19 @@
 /* eslint-disable no-prototype-builtins */
-import { Router } from 'express';
-import { getProviderStub, matchRequestToPact } from '../services/pactStubService';
+import {
+  NextFunction, Request, Response, Router,
+} from 'express';
+import { matchPactRequestToStub } from '../services/requestMatcherService';
 import emulateResponse from '../utils/emulateResponse';
 
 const router = Router();
 
-router.use((req, res, next) => {
+router.use((req: Request, res: Response, next: NextFunction) => {
   console.log(`Matching request: ${req.method} to ${req.originalUrl}`);
   next();
 });
 
-router.get('*', (req, res) => {
-  const uri = req.url;
-  const route = uri.split(/\//)[1];
-  const method = req.method.toLowerCase();
-
-  const matchedResponse = matchRequestToPact(route, uri, method);
+router.get('*', (req: Request, res: Response) => {
+  const matchedResponse = matchPactRequestToStub(req);
 
   if (matchedResponse) {
     return emulateResponse(matchedResponse, res);
