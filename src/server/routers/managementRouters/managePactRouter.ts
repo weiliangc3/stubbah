@@ -15,6 +15,11 @@ router.get('/', (req: Request, res: Response) => {
   res.send(getProviderStubMap());
 });
 
+router.get('/:route', (req: Request, res: Response) => {
+  const { route } = req.params;
+  res.send(getProviderStub(route));
+});
+
 router.post('/:route', bodyParser.json(), (req: Request, res: Response) => {
   let pactStub: Pact;
   const { route } = req.params;
