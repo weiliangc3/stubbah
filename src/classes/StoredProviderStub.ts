@@ -1,4 +1,4 @@
-import { PactInteraction } from './types';
+import PactInteraction from './PactInteraction';
 
 export default class StoredProviderStub {
   provider: string;

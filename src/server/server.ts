@@ -6,7 +6,7 @@ import path from 'path';
 import manageApiRouter from './routers/managementRouters/mainManagementRouter';
 import manageRouter from './routers/manageRouter';
 import counterRouter from './routers/counterRouter';
-import pactStubRouter from './routers/pactStubRouter';
+import stubRouter from './routers/stubRouter';
 import fallbackHandler from './fallbackHandler';
 
 const app = express();
@@ -21,7 +21,7 @@ app.get('/', (req, res) => {
 app.use('/manage', manageRouter);
 app.use('/manage-api', manageApiRouter);
 app.use('/counter', counterRouter);
-app.use('/pact-stub', pactStubRouter);
+app.use('/stub', stubRouter);
 
 app.use('*', fallbackHandler);
 

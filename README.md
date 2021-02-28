@@ -34,7 +34,7 @@ To start it on port 3000:
 - UI to add state of provider ❌
 - API to remove state of provider ✅
 - UI to remove state of provider ❌
-- Counts/captures requests, and what stubs they match etc ❌
+- Counts/captures requests, and what stubs they match etc ✅
 - UI to look at count/captured requests ❌
 
 ## Generic stubs

@@ -1,21 +1,29 @@
 import { Request } from 'express';
-import { StubResponse } from './types';
+import { MatchType } from './types';
+import MatchedPactInteraction from './MatchedPactInteraction';
+import MatchedRequest from './MatchedRequest';
 
 export default class RequestRecord {
-  request: Request;
+  request: MatchedRequest;
 
   matched: boolean;
 
-  response: StubResponse|null;
+  matchedStub: MatchedPactInteraction|undefined;
 
-  constructor(request: Request, response: StubResponse|null = null) {
-    this.request = request;
-    if (response) {
+  matchType: MatchType|undefined;
+
+  constructor(request: Request, matchedStub: MatchedPactInteraction|undefined = undefined) {
+    this.request = new MatchedRequest(request);
+    if (matchedStub) {
       this.matched = true;
-      this.response = response;
+      this.matchedStub = matchedStub;
+      if (matchedStub instanceof MatchedPactInteraction) {
+        this.matchType = MatchType.Pact;
+      } else {
+        this.matchType = MatchType.Generic;
+      }
     } else {
       this.matched = false;
-      this.response = null;
     }
   }
 }

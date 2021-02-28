@@ -2,7 +2,7 @@
 import {
   NextFunction, Request, Response, Router,
 } from 'express';
-import { matchPactRequestToStub } from '../services/requestMatcherService';
+import { matchRequestToStub } from '../services/requestMatcherService';
 import emulateResponse from '../utils/emulateResponse';
 
 const router = Router();
@@ -13,7 +13,7 @@ router.use((req: Request, res: Response, next: NextFunction) => {
 });
 
 router.get('*', (req: Request, res: Response) => {
-  const matchedResponse = matchPactRequestToStub(req);
+  const matchedResponse = matchRequestToStub(req);
 
   if (matchedResponse) {
     return emulateResponse(matchedResponse, res);

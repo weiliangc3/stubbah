@@ -1,4 +1,5 @@
-import { PactConsumer, PactInteraction, PactProvider } from './types';
+import { PactConsumer, PactProvider } from './types';
+import PactInteraction from './PactInteraction';
 
 export default class Pact {
   provider: PactProvider;

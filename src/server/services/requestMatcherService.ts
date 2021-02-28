@@ -1,12 +1,13 @@
 import { Request } from 'express';
 import { StubResponse } from '../../classes/types';
+import PactInteraction from '../../classes/PactInteraction';
 import RequestRecord from '../../classes/RequestRecord';
 import { getProviderStub } from './pactStubService';
+import MatchedPactInteraction from '../../classes/MatchedPactInteraction';
 
-const requestsRecods: RequestRecord[] = [];
+const requestsRecords: RequestRecord[] = [];
 
-// eslint-disable-next-line import/prefer-default-export
-export function matchPactRequestToStub(req: Request): StubResponse|null {
+function matchPactRequestToStub(req: Request): PactInteraction[] {
   const uri = req.url;
   const route = uri.split(/\//)[1];
   const method = req.method.toLowerCase();
@@ -26,10 +27,24 @@ export function matchPactRequestToStub(req: Request): StubResponse|null {
         && interaction.request.method.toLowerCase() === method
         && providerActiveStates.includes(interaction.provider_state));
 
-    if (matchingInteractions.length > 0) {
-      console.log(`Provider interactions matched with ${matchingInteractions.length} pact(s)`);
-      return matchingInteractions[0].response;
-    }
+    return matchingInteractions;
   }
+  return [];
+}
+
+export function matchRequestToStub(req: Request): StubResponse|null {
+  const matchedPactResponses = matchPactRequestToStub(req);
+  if (matchedPactResponses.length > 0) {
+    console.log(`Provider interactions matched with ${matchedPactResponses.length} pact(s)`);
+    const matchedPactInteraction = new MatchedPactInteraction(matchedPactResponses[0], 'something');
+    requestsRecords.push(new RequestRecord(req, matchedPactInteraction));
+    return matchedPactInteraction.response;
+  }
+
+  requestsRecords.push(new RequestRecord(req));
   return null;
+}
+
+export function getAllRequestRecords(): RequestRecord[] {
+  return requestsRecords;
 }
