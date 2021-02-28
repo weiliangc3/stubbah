@@ -1,11 +1,15 @@
-import fs from 'fs';
 import Pact from '../../classes/Pact';
 import StoredProviderStub from '../../classes/StoredProviderStub';
+import PactToLoad from '../../classes/PactToLoad';
+import { getLocalPactFiles } from './staticFileLoaderService';
 
 const providerStubs: Record<string, StoredProviderStub> = {};
 
-// eslint-disable-next-line @typescript-eslint/no-use-before-define
-loadLocalPactStubFiles();
+const localPacts: PactToLoad[] = getLocalPactFiles();
+localPacts.forEach((localPact: PactToLoad) => {
+  // eslint-disable-next-line @typescript-eslint/no-use-before-define
+  loadPact(localPact.pact, localPact.route);
+});
 
 export function getProviderStubMap(): Record<string, StoredProviderStub> {
   return providerStubs;
@@ -70,16 +74,6 @@ export function getPotentialStatesForProvider(route: string): string[] {
     }
   });
   return potentialStates;
-}
-
-export function loadLocalPactStubFiles(): void {
-  fs.readFile('stubs/sample.json', (err, data) => {
-    if (err) throw err;
-    const pact: Pact = new Pact(JSON.parse(data.toString()));
-
-    // dummy data
-    loadPact(pact, 'zoo');
-  });
 }
 
 export function getProviderStates(route: string): string[] {
