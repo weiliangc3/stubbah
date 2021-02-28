@@ -22,7 +22,7 @@ To start it on port 3000:
 
 - Stores stubs ✅
 - Matches stubs to request ✅
-- UI to look at stored stubs ❌
+- UI to look at stored stubs ✅
 - Add stubs by folder ✅
 - API to add stubs ✅
 - UI to add stubs ❌

@@ -1,21 +1,10 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
-import styled from 'styled-components';
 import StoredProviderStub from '../../../../classes/StoredProviderStub';
 import getPacts from '../../../apiCalls/getPacts';
-import getFromTheme from '../../../utils/getFromTheme';
 import Title from '../../molecule/Title';
 import Paragraph from '../../molecule/Paragraph';
 import Section from '../../molecule/Section';
-
-const PactsTable = styled.table`
-  ${getFromTheme('tableStyling')}
-`;
-
-const StyledTableLink = styled(Link)`
-  display: block;
-  width: 100%;
-`;
+import Table, { TableLink } from '../../molecule/Table';
 
 const PactsPage: FunctionComponent = () => {
   const [pacts, setPacts] = useState<Record<string, StoredProviderStub>>({});
@@ -49,7 +38,7 @@ const PactsPage: FunctionComponent = () => {
           <Paragraph>
             Click &ldquo;Manage pacts&rdquo; to make changes.
           </Paragraph>
-          <PactsTable>
+          <Table>
             <tr>
               <th>Provider name</th>
               <th>Route</th>
@@ -70,13 +59,13 @@ const PactsPage: FunctionComponent = () => {
                   </ul>
                 </td>
                 <td>
-                  <StyledTableLink to={`/pact/route/${pactRoutes[index]}`}>
+                  <TableLink to={`/pact/route/${pactRoutes[index]}`}>
                     Manage pact &#x25B8;
-                  </StyledTableLink>
+                  </TableLink>
                 </td>
               </tr>
             ))}
-          </PactsTable>
+          </Table>
         </>
       )}
     </Section>
