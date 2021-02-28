@@ -63,3 +63,4 @@ To start it on port 3000:
 - Output useful files (what the heck is useful here)
 - Act as a proxy, and record request-response
 - What about... postman? And postman collections?
+- Write to file? DB?
