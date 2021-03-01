@@ -69,8 +69,8 @@ export function getPotentialStatesForProvider(route: string): string[] {
   providerStub.interactions.forEach((interactionId) => {
     const state = providerStub.interactionMap[interactionId].provider_state;
 
-    if (!potentialStates.includes(state)) {
-      potentialStates.push();
+    if (!potentialStates.includes(state) && !providerStub.activeStates.includes(state)) {
+      potentialStates.push(state);
     }
   });
   return potentialStates;

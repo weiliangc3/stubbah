@@ -1,6 +1,7 @@
-import axios from 'axios';
+import axios from './axios';
 import StoredProviderStub from '../../classes/StoredProviderStub';
+import { managePactsByRouteEndpoint } from '../../endpoints/managePactEndpoints';
 
-export default (id: string): Promise<StoredProviderStub> => axios
-  .get(`/manage-api/pact/${id}`)
+export default (route: string): Promise<StoredProviderStub> => axios
+  .get(managePactsByRouteEndpoint(route))
   .then((res) => res.data);

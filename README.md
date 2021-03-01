@@ -31,9 +31,9 @@ To start it on port 3000:
 - API to remove provider ✅
 - UI to remove provider ❌
 - API to add state of provider ✅
-- UI to add state of provider ❌
+- UI to add state of provider ✅
 - API to remove state of provider ✅
-- UI to remove state of provider ❌
+- UI to remove state of provider ✅
 - Counts/captures requests, and what stubs they match etc ✅
 - UI to look at count/captured requests ❌
 
@@ -64,3 +64,6 @@ To start it on port 3000:
 - Act as a proxy, and record request-response
 - What about... postman? And postman collections?
 - Write to file? DB?
+- Folder loaded as an option?
+- Export just the server as something?
+- Better documentation? lol pie in the sky.

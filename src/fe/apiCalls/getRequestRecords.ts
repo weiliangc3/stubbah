@@ -1,6 +1,7 @@
-import axios from 'axios';
+import axios from './axios';
 import RequestRecord from '../../classes/RequestRecord';
+import { requestsEndpoint } from '../../endpoints/manageEndpoints';
 
 export default (): Promise<RequestRecord[]> => axios
-  .get('/manage-api/requests')
+  .get(requestsEndpoint)
   .then((res) => res.data);

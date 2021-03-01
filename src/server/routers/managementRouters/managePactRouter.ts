@@ -3,11 +3,12 @@ import {
 } from 'express';
 import bodyParser from 'body-parser';
 import {
-  addStateForProviderByRoute, getProviderStub,
+  addStateForProviderByRoute, getPotentialStatesForProvider, getProviderStub,
   getProviderStubMap, loadPact, removeInteractionFromStub,
   removeProviderStub, removeStateForProviderByRoute,
 } from '../../services/pactStubService';
 import Pact from '../../../classes/Pact';
+import { interactionAccessor, statesAccessor, statesAvailableAccessor } from '../../../endpoints/managePactEndpoints';
 
 const router: Router = Router();
 
@@ -30,49 +31,62 @@ router.post('/:route', bodyParser.json(), (req: Request, res: Response) => {
     }
     pactStub = new Pact(requestBody);
   } catch {
-    return res.sendStatus(400);
+    return res.status(404).send(`No route ${route} found`);
   }
 
   loadPact(pactStub, route);
   return res.send(getProviderStub(route));
 });
 
-router.post('/:route/state', bodyParser.text(), (req: Request, res: Response) => {
+router.get(`/:route/${statesAccessor}/${statesAvailableAccessor}`, (req: Request, res: Response) => {
   const { route } = req.params;
   try {
     if (!route) {
       throw new Error();
     }
   } catch {
-    return res.sendStatus(400);
+    return res.status(404).send(`No route ${route} found`);
   }
 
-  addStateForProviderByRoute(req.body, route);
-  return res.send(getProviderStub(route));
+  return res.send(getPotentialStatesForProvider(route));
 });
 
-router.delete('/:route/state', bodyParser.text(), (req: Request, res: Response) => {
+router.post(`/:route/${statesAccessor}`, bodyParser.json(), (req: Request, res: Response) => {
   const { route } = req.params;
   try {
     if (!route) {
       throw new Error();
     }
   } catch {
-    return res.sendStatus(400);
+    return res.status(404).send(`No route ${route} found`);
   }
 
-  removeStateForProviderByRoute(req.body, route);
+  addStateForProviderByRoute(req.body.state, route);
   return res.send(getProviderStub(route));
 });
 
-router.delete('/:route/interaction/:id', (req: Request, res: Response) => {
+router.delete(`/:route/${statesAccessor}`, bodyParser.json(), (req: Request, res: Response) => {
+  const { route } = req.params;
+  try {
+    if (!route) {
+      throw new Error();
+    }
+  } catch {
+    return res.status(404).send(`No route ${route} found`);
+  }
+
+  removeStateForProviderByRoute(req.body.state, route);
+  return res.send(getProviderStub(route));
+});
+
+router.delete(`/:route/${interactionAccessor}/:id`, (req: Request, res: Response) => {
   const { route, id } = req.params;
   try {
     if (!route) {
       throw new Error();
     }
   } catch {
-    return res.sendStatus(400);
+    return res.status(404).send(`No route ${route} found`);
   }
 
   removeInteractionFromStub(route, parseInt(id, 10));
@@ -86,7 +100,7 @@ router.delete('/:route', (req: Request, res: Response) => {
       throw new Error();
     }
   } catch {
-    return res.sendStatus(400);
+    return res.status(404).send(`No route ${route} found`);
   }
 
   removeProviderStub(route);

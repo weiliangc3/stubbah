@@ -1,14 +1,23 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
+import MultiSelect from 'react-multi-select-component';
+import { Option } from 'react-multi-select-component/dist/lib/interfaces';
 import StoredProviderStub from '../../../../classes/StoredProviderStub';
 import getPact from '../../../apiCalls/getPact';
+import deletePactState from '../../../apiCalls/deletePactState';
 import Title from '../../molecule/Title';
 import Section from '../../molecule/Section';
 import Subheader from '../../molecule/Subheader';
 import Paragraph from '../../molecule/Paragraph';
 import Table from '../../molecule/Table';
 import MorphingButton from '../../molecule/MorphingButton';
+import getPotentialStatesForPact from '../../../apiCalls/getPotentialStatesForPact';
+import addPactStates from '../../../apiCalls/addPactStates';
+
+const StyledMultiSelect = styled(MultiSelect)`
+  color: #000;
+`;
 
 const StateTable = styled(Table)`
   & th:nth-child(2), & td:nth-child(2) {
@@ -18,13 +27,38 @@ const StateTable = styled(Table)`
 
 const PactPage: FunctionComponent = () => {
   const [pact, setPact] = useState<StoredProviderStub | null>(null);
+  const [statesToAdd, setStatesToAdd] = useState<Option[]>([]);
+  const [availableStates, setAvailableStates] = useState<string[]>([]);
+
   const { route } = useParams<ParamTypes>();
 
-  useEffect(() => {
+  const resetData = () => {
     getPact(route).then((data) => {
       setPact(data);
     });
-  }, []);
+    getPotentialStatesForPact(route).then((data) => {
+      setAvailableStates(data);
+    });
+    setStatesToAdd([]);
+  };
+
+  const confirmAddState = () => {
+    if (statesToAdd.length > 0) {
+      const statesToAddStrings: string[] = statesToAdd.map((stateToAdd) => stateToAdd.value);
+      addPactStates(route, statesToAddStrings).then(resetData);
+    }
+  };
+
+  const confirmDeleteState = (state: string) => () => {
+    deletePactState(route, state).then(resetData);
+  };
+
+  useEffect(resetData, []);
+
+  const availableStateOptions: Option[] = availableStates.map((state) => ({
+    label: state,
+    value: state,
+  }));
 
   return (
     <Section>
@@ -39,17 +73,36 @@ const PactPage: FunctionComponent = () => {
       <StateTable>
         <tr>
           <th>State</th>
-          <th>Delete</th>
+          <th>Delete/Add</th>
         </tr>
         {pact?.activeStates.map((state) => (
           <tr>
             <td>{state}</td>
-            <td><MorphingButton onClick={() => { console.log(state); }}>Delete</MorphingButton></td>
+            <td>
+              <MorphingButton onClick={confirmDeleteState(state)}>
+                Delete &#x25B8;
+              </MorphingButton>
+            </td>
           </tr>
         ))}
+        <tr>
+          <td>
+            <StyledMultiSelect
+              options={availableStateOptions}
+              value={statesToAdd}
+              onChange={setStatesToAdd}
+              labelledBy="State(s) to add"
+            />
+          </td>
+          <td>
+            <MorphingButton onClick={confirmAddState}>
+              Add state  &#x25B8;
+            </MorphingButton>
+          </td>
+        </tr>
       </StateTable>
 
-      <Subheader>Interactions</Subheader>
+      <Subheader>Available interactions</Subheader>
       <Paragraph>
         {`${pact?.interactions.length} interactions:`}
       </Paragraph>

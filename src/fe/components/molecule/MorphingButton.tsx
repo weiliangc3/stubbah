@@ -34,9 +34,14 @@ const CancelButton = styled(Button)`
 const MorphingButton: FunctionComponent<Props> = ({ onClick, children }: Props) => {
   const [active, setActive] = useState<boolean>(false);
 
+  const confirmHandler = () => {
+    setActive(false);
+    onClick();
+  };
+
   return active ? (
     <>
-      <ConfirmButton onClick={() => onClick()}>
+      <ConfirmButton onClick={confirmHandler}>
         Confirm
       </ConfirmButton>
       <CancelButton onClick={() => setActive(false)}>

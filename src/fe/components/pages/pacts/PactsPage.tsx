@@ -42,7 +42,7 @@ const PactsPage: FunctionComponent = () => {
             <tr>
               <th>Provider name</th>
               <th>Route</th>
-              <th>No. of stubs</th>
+              <th>No. of available interactions</th>
               <th>Active states</th>
               <th>Manage</th>
             </tr>
