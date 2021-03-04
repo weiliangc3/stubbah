@@ -1,12 +1,11 @@
-import { PactConsumer, PactProvider } from './types';
-import PactInteraction from './PactInteraction';
+import { PactConsumer, PactProvider, RawPactInteraction } from './types';
 
 export default class Pact {
   provider: PactProvider;
 
   consumer: PactConsumer;
 
-  interactions : PactInteraction[];
+  interactions : RawPactInteraction[];
 
   metadata: Record<string, unknown>;
 

@@ -23,3 +23,10 @@ export enum MatchType {
   Pact = 'pact',
   Generic = 'generic',
 }
+
+export interface RawPactInteraction {
+  description: string;
+  provider_state: string;
+  request: PactStubRequest;
+  response: StubResponse;
+}

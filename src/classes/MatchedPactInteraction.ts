@@ -4,10 +4,14 @@ export default class MatchedPactInteraction extends PactInteraction {
   provider: string;
 
   constructor(pactInteraction: PactInteraction, provider: string) {
-    super(pactInteraction.description,
-      pactInteraction.provider_state,
+    super(
+      pactInteraction.id,
+      pactInteraction.description,
+      pactInteraction.providerState,
       pactInteraction.request,
-      pactInteraction.response);
+      pactInteraction.response,
+      pactInteraction.route,
+    );
     this.provider = provider;
   }
 }

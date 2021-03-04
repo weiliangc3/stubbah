@@ -2,6 +2,8 @@ import Pact from '../../classes/Pact';
 import StoredProviderStub from '../../classes/StoredProviderStub';
 import PactToLoad from '../../classes/PactToLoad';
 import { getLocalPactFiles } from './staticFileLoaderService';
+import { addPactInteractionsToProviderStub, getInteractionsForProviderStub } from './pactInteractionsService';
+import PactInteraction from '../../classes/PactInteraction';
 
 const providerStubs: Record<string, StoredProviderStub> = {};
 
@@ -32,14 +34,14 @@ export function loadPact(pact: Pact, route: string): boolean {
       return false;
     }
 
-    pact.interactions.forEach((interaction) => {
-      providerStub.addInteraction(interaction);
-    });
+    providerStubs[route] = addPactInteractionsToProviderStub(providerStub, pact);
+
     console.log(`Loaded pact for ${route}`);
     return true;
   }
 
-  providerStubs[route] = new StoredProviderStub(pact.provider.name, pact.interactions);
+  const newProviderStub = new StoredProviderStub(pact.provider.name, route);
+  providerStubs[route] = addPactInteractionsToProviderStub(newProviderStub, pact);
   return true;
 }
 
@@ -65,9 +67,10 @@ export function removeStateForProviderByRoute(state: string, route: string): voi
 export function getPotentialStatesForProvider(route: string): string[] {
   const potentialStates: string[] = [];
   const providerStub = getProviderStub(route);
+  const interactions = getInteractionsForProviderStub(providerStub);
 
-  providerStub.interactions.forEach((interactionId) => {
-    const state = providerStub.interactionMap[interactionId].provider_state;
+  interactions.forEach((interaction) => {
+    const state = interaction.providerState;
 
     if (!potentialStates.includes(state) && !providerStub.activeStates.includes(state)) {
       potentialStates.push(state);
@@ -78,4 +81,11 @@ export function getPotentialStatesForProvider(route: string): string[] {
 
 export function getProviderStates(route: string): string[] {
   return getProviderStub(route).activeStates;
+}
+
+export function getInteractionsForRoute(route: string): PactInteraction[] {
+  const providerStub = getProviderStub(route);
+  if (!providerStub) { return []; }
+
+  return getInteractionsForProviderStub(providerStub);
 }

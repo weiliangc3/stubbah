@@ -3,10 +3,10 @@ import {
 } from 'express';
 import bodyParser from 'body-parser';
 import {
-  addStateForProviderByRoute, getPotentialStatesForProvider, getProviderStub,
+  addStateForProviderByRoute, getInteractionsForRoute, getPotentialStatesForProvider, getProviderStub,
   getProviderStubMap, loadPact, removeInteractionFromStub,
   removeProviderStub, removeStateForProviderByRoute,
-} from '../../services/pactStubService';
+} from '../../services/pactStubsService';
 import Pact from '../../../classes/Pact';
 import { interactionAccessor, statesAccessor, statesAvailableAccessor } from '../../../endpoints/managePactEndpoints';
 
@@ -91,6 +91,11 @@ router.delete(`/:route/${interactionAccessor}/:id`, (req: Request, res: Response
 
   removeInteractionFromStub(route, parseInt(id, 10));
   return res.send(getProviderStub(route));
+});
+
+router.get(`/:route/${interactionAccessor}`, (req: Request, res: Response) => {
+  const { route } = req.params;
+  return res.send(getInteractionsForRoute(route));
 });
 
 router.delete('/:route', (req: Request, res: Response) => {

@@ -15,6 +15,9 @@ export function pactStatesByRouteEndpoint(route: string): string {
 export function availablePactStatesByRouteEndpoint(route: string): string {
   return `${managePactsEndpoint}/${route}/${statesAccessor}/${statesAvailableAccessor}`;
 }
+export function interactionsByPactRouteEndpoint(route: string): string {
+  return `${managePactsEndpoint}/${route}/${interactionAccessor}`;
+}
 export function interactionsByRouteAndIdEndpoint(route: string, id: string): string {
   return `${managePactsEndpoint}/${route}/${interactionAccessor}/${id}`;
 }

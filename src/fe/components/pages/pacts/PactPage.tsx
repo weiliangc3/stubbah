@@ -14,6 +14,8 @@ import Table from '../../molecule/Table';
 import MorphingButton from '../../molecule/MorphingButton';
 import getPotentialStatesForPact from '../../../apiCalls/getPotentialStatesForPact';
 import addPactStates from '../../../apiCalls/addPactStates';
+import getInteractionsForPactRoute from '../../../apiCalls/getInteractionsForPactRoute';
+import PactInteraction from '../../../../classes/PactInteraction';
 
 const StyledMultiSelect = styled(MultiSelect)`
   color: #000;
@@ -27,14 +29,19 @@ const StateTable = styled(Table)`
 
 const PactPage: FunctionComponent = () => {
   const [pact, setPact] = useState<StoredProviderStub | null>(null);
-  const [statesToAdd, setStatesToAdd] = useState<Option[]>([]);
+  const [interactions, setInteractions] = useState<PactInteraction[]>([]);
   const [availableStates, setAvailableStates] = useState<string[]>([]);
+  const [statesToAdd, setStatesToAdd] = useState<Option[]>([]);
 
   const { route } = useParams<ParamTypes>();
 
+  // Lazy implementation: refactor
   const resetData = () => {
     getPact(route).then((data) => {
       setPact(data);
+    });
+    getInteractionsForPactRoute(route).then((data)=> {
+      setInteractions(data);
     });
     getPotentialStatesForPact(route).then((data) => {
       setAvailableStates(data);
@@ -104,7 +111,7 @@ const PactPage: FunctionComponent = () => {
 
       <Subheader>Available interactions</Subheader>
       <Paragraph>
-        {`${pact?.interactions.length} interactions:`}
+        {`${interactions.length} interactions:`}
       </Paragraph>
 
       <Table>
@@ -114,15 +121,14 @@ const PactPage: FunctionComponent = () => {
           <th>Request</th>
           <th>Response</th>
         </tr>
-        {pact?.interactions.map((index) => {
+        {interactions.map((interaction) => {
           const {
-            // eslint-disable-next-line @typescript-eslint/naming-convention
-            description, provider_state, request, response,
-          } = pact?.interactionMap[index];
+            description, providerState, request, response,
+          } = interaction;
           return (
             <tr>
               <td>{description}</td>
-              <td>{provider_state}</td>
+              <td>{providerState}</td>
               <td>{JSON.stringify(request)}</td>
               <td>{JSON.stringify(response)}</td>
             </tr>
