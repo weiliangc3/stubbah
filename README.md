@@ -69,3 +69,4 @@ To start it on port 3000:
 - Folder loaded as an option?
 - Export just the server as something?
 - Better documentation? lol pie in the sky.
+- Test. hahahah. I mean I really should but also

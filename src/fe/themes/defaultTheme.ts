@@ -2,6 +2,7 @@ const spaceCherryColour = '#be2931';
 const chromeColour = '#949398';
 const luxeLemonColour = '#f5df4d';
 const white = '#FFF';
+const black = '#000';
 const primaryFont = `
   font-family: 'Source Sans Pro', sans-serif;
   font-weight: 600;
@@ -29,14 +30,6 @@ const tableStyling = `
     background-color: #f2f2f2;
   }
 
-  & tr:hover {
-    background-color: ${chromeColour};
-    color: ${white};
-    & a {
-      color: ${luxeLemonColour};
-    }
-  }
-
   & th {
     padding-top: 16px;
     padding-bottom: 16px;
@@ -46,6 +39,37 @@ const tableStyling = `
   }
   & a {
     color: ${spaceCherryColour};
+  }
+`;
+const jsonGreen = '#24803c';
+const jsonYellow = '#968d0f';
+const jsonBlue = '#0d58ba';
+const jsonTheme = `
+  font-family: 'Courier New', 'Courier', monospace;
+  line-height: 1.3;
+  color: ${black};
+  font-weight: 400;
+  font-size: 14px;
+  white-space: pre-wrap;
+  word-wrap: break-word
+
+  & .__json-key__{
+    color: ${jsonGreen};
+  }
+
+  & .__json-value__ {
+    font-weight: 600;
+    color: ${jsonBlue};
+  }
+
+  & .__json-string__ {
+    font-weight: 600;
+    color: ${spaceCherryColour};
+  }
+
+  & .__json-boolean__ {
+    font-weight: 600;
+    color: ${jsonYellow};
   }
 `;
 
@@ -62,6 +86,7 @@ const defaultTheme = {
   navFontColour: chromeColour,
   tableStyling,
   linkColour: chromeColour,
+  jsonTheme,
 };
 
 export default defaultTheme;

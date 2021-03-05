@@ -16,6 +16,7 @@ import getPotentialStatesForPact from '../../../apiCalls/getPotentialStatesForPa
 import addPactStates from '../../../apiCalls/addPactStates';
 import getInteractionsForPactRoute from '../../../apiCalls/getInteractionsForPactRoute';
 import PactInteraction from '../../../../classes/PactInteraction';
+import JsonDisplay from '../../molecule/JsonDisplay';
 
 const StyledMultiSelect = styled(MultiSelect)`
   color: #000;
@@ -40,7 +41,7 @@ const PactPage: FunctionComponent = () => {
     getPact(route).then((data) => {
       setPact(data);
     });
-    getInteractionsForPactRoute(route).then((data)=> {
+    getInteractionsForPactRoute(route).then((data) => {
       setInteractions(data);
     });
     getPotentialStatesForPact(route).then((data) => {
@@ -120,21 +121,32 @@ const PactPage: FunctionComponent = () => {
           <th>State</th>
           <th>Request</th>
           <th>Response</th>
+          <th>Count*</th>
         </tr>
         {interactions.map((interaction) => {
           const {
-            description, providerState, request, response,
+            description, providerState, request,
+            response, counter,
           } = interaction;
           return (
             <tr>
               <td>{description}</td>
               <td>{providerState}</td>
-              <td>{JSON.stringify(request)}</td>
-              <td>{JSON.stringify(response)}</td>
+              <td>
+                <JsonDisplay data={request} />
+              </td>
+              <td>
+                <JsonDisplay data={response} />
+              </td>
+              <td>{counter}</td>
             </tr>
           );
         })}
       </Table>
+      <Paragraph>
+        *Count refers to the amount of times the interaction
+        has been matched AND the response given.
+      </Paragraph>
     </Section>
   );
 };
