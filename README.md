@@ -37,6 +37,7 @@ To start it on port 3000:
 - Counts/captures requests, and what stubs they match etc ✅
 - UI to look at count/captured requests ❌
 - Counter for amount of times a stub is triggered on the display pact page ✅
+- Reset counter for amount of times a stub is triggered on the display pact page ❌
 
 ### Generic stubs
 
@@ -57,7 +58,8 @@ To start it on port 3000:
 - UI to remove state of provider ❌
 - Counts/captures requests, and what stubs they match etc ❌
 - UI to look at count/captured requests ❌
-- Counter for amount of times a stub is triggered on the display pact page ❌
+- Counter for amount of times a stub is triggered on the display stub page ❌
+- Reset counter for amount of times a stub is triggered on the display stub page ❌
 
 ### Pie in the sky ideas
 
