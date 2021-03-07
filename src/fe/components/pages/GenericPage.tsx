@@ -1,11 +1,11 @@
 import React, { FunctionComponent } from 'react';
 import Title from '../molecule/Title';
-import Section from '../molecule/Section';
+import Main from '../molecule/Main';
 
 const GenericPage: FunctionComponent = () => (
-  <Section>
+  <Main>
     <Title>Generic page</Title>
-  </Section>
+  </Main>
 );
 
 export default GenericPage;

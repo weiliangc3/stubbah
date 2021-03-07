@@ -13,10 +13,15 @@ const secondaryFont = `
   font-weight: 300;
   font-style: oblique;
 `;
-const tertiaryFont = `
+const normalFont = `
   font-family: 'ABeeZee', sans-serif;
   font-weight: normal;
   font-style: normal;
+`;
+const formLabelFont = `
+  font-family: 'Libre Franklin', sans-serif;
+  font-weight: 300;
+  font-style: oblique;
 `;
 const tableStyling = `
   width: 100%;
@@ -72,6 +77,13 @@ const jsonTheme = `
     color: ${jsonYellow};
   }
 `;
+const buttonStyling = `
+  ${normalFont};
+  padding: 8px;
+  background-color: ${luxeLemonColour};
+  border: 2px solid ${chromeColour};
+  border-radius: 8px;
+`;
 
 const defaultTheme = {
   headerBackground: luxeLemonColour,
@@ -80,13 +92,16 @@ const defaultTheme = {
   subheadingFont: secondaryFont,
   subheadingColour: chromeColour,
   titleColour: spaceCherryColour,
-  mainFont: tertiaryFont,
+  mainFont: normalFont,
   navBackground: white,
   navFont: secondaryFont,
   navFontColour: chromeColour,
   tableStyling,
   linkColour: chromeColour,
   jsonTheme,
+  formLabelFont,
+  errorColour: spaceCherryColour,
+  buttonStyling,
 };
 
 export default defaultTheme;

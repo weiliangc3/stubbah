@@ -3,7 +3,7 @@ import getFromTheme from '../../utils/getFromTheme';
 
 export default styled.h1`
   padding-bottom: 32px;
-  font-size: 36px;
+  font-size: 52px;
   color: ${getFromTheme('titleColour')};
   ${getFromTheme('headerFont')}
 `;

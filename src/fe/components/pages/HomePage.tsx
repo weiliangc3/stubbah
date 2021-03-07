@@ -1,11 +1,11 @@
 import React, { FunctionComponent } from 'react';
 import Title from '../molecule/Title';
-import Section from '../molecule/Section';
+import Main from '../molecule/Main';
 
 const HomePage: FunctionComponent = () => (
-  <Section>
+  <Main>
     <Title>Stubbah</Title>
-  </Section>
+  </Main>
 );
 
 export default HomePage;

@@ -25,7 +25,7 @@ To start it on port 3000:
 - UI to look at stored stubs ✅
 - Add stubs by folder ✅
 - API to add stubs ✅
-- UI to add stubs ❌
+- UI to add stubs ✅
 - API to remove stubs ✅
 - UI to remove stubs ❌
 - API to remove provider ✅
@@ -36,7 +36,7 @@ To start it on port 3000:
 - UI to remove state of provider ✅
 - Counts/captures requests, and what stubs they match etc ✅
 - UI to look at count/captured requests ❌
-- Counter for amount of times a stub is triggered on the display pact page ❌
+- Counter for amount of times a stub is triggered on the display pact page ✅
 
 ### Generic stubs
 

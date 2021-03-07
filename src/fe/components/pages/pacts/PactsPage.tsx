@@ -3,7 +3,7 @@ import StoredProviderStub from '../../../../classes/StoredProviderStub';
 import getPacts from '../../../apiCalls/getPacts';
 import Title from '../../molecule/Title';
 import Paragraph from '../../molecule/Paragraph';
-import Section from '../../molecule/Section';
+import Main from '../../molecule/Main';
 import Table, { TableLink } from '../../molecule/Table';
 
 const PactsPage: FunctionComponent = () => {
@@ -22,7 +22,7 @@ const PactsPage: FunctionComponent = () => {
   });
 
   return (
-    <Section>
+    <Main>
       <Title>Pacts loaded</Title>
 
       <Paragraph>
@@ -36,7 +36,7 @@ const PactsPage: FunctionComponent = () => {
       ) : (
         <>
           <Paragraph>
-            Click &ldquo;Manage pacts&rdquo; to make changes.
+            Click &ldquo;Manage pacts&rdquo; to make changes and see details.
           </Paragraph>
           <Table>
             <tr>
@@ -68,7 +68,7 @@ const PactsPage: FunctionComponent = () => {
           </Table>
         </>
       )}
-    </Section>
+    </Main>
   );
 };
 

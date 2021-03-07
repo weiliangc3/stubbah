@@ -1,12 +1,12 @@
 import React, { FunctionComponent } from 'react';
 import Title from '../molecule/Title';
-import Section from '../molecule/Section';
+import Main from '../molecule/Main';
 
 const NotFoundPage: FunctionComponent = () => (
-  <Section>
+  <Main>
     <Title>Page not found</Title>
     There is no page there.
-  </Section>
+  </Main>
 );
 
 export default NotFoundPage;

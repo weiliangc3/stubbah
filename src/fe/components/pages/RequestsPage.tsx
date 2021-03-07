@@ -2,7 +2,7 @@ import React, { FunctionComponent, useEffect, useState } from 'react';
 import RequestRecord from '../../../classes/RequestRecord';
 import getRequestRecords from '../../apiCalls/getRequestRecords';
 import Title from '../molecule/Title';
-import Section from '../molecule/Section';
+import Main from '../molecule/Main';
 
 const RequestsPage: FunctionComponent = () => {
   const [requests, setRequests] = useState<RequestRecord[]>([]);
@@ -14,12 +14,12 @@ const RequestsPage: FunctionComponent = () => {
   }, []);
 
   return (
-    <Section>
+    <Main>
       <Title>Requests page</Title>
       <div>
         {JSON.stringify(requests)}
       </div>
-    </Section>
+    </Main>
   );
 };
 

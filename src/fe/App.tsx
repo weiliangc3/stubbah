@@ -13,19 +13,24 @@ import RequestsPage from './components/pages/RequestsPage';
 import defaultTheme from './themes/defaultTheme';
 import getFromTheme from './utils/getFromTheme';
 
-const Main = styled.main`
+const MainContainer = styled.div`
   max-width: 1280px;
   padding: 16px 64px;
   margin: 0 auto;
   display: flex;
   ${getFromTheme('mainFont')};
+  
+  @media screen and (max-width: 1366px) {
+    flex-direction: column;
+    padding: 8px
+  }
 `;
 
 const App: FunctionComponent = () => (
   <ThemeProvider theme={defaultTheme}>
     <BrowserRouter basename="/manage">
       <Header />
-      <Main>
+      <MainContainer>
         <Nav />
         <Switch>
           <Route path="/requests">
@@ -45,7 +50,7 @@ const App: FunctionComponent = () => (
           </Route>
           <Redirect to="/not-found" />
         </Switch>
-      </Main>
+      </MainContainer>
     </BrowserRouter>
   </ThemeProvider>
 );

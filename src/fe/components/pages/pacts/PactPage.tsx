@@ -7,7 +7,7 @@ import StoredProviderStub from '../../../../classes/StoredProviderStub';
 import getPact from '../../../apiCalls/getPact';
 import deletePactState from '../../../apiCalls/deletePactState';
 import Title from '../../molecule/Title';
-import Section from '../../molecule/Section';
+import Main from '../../molecule/Main';
 import Subheader from '../../molecule/Subheader';
 import Paragraph from '../../molecule/Paragraph';
 import Table from '../../molecule/Table';
@@ -17,6 +17,8 @@ import addPactStates from '../../../apiCalls/addPactStates';
 import getInteractionsForPactRoute from '../../../apiCalls/getInteractionsForPactRoute';
 import PactInteraction from '../../../../classes/PactInteraction';
 import JsonDisplay from '../../molecule/JsonDisplay';
+import AddPactStubForm from '../../organism/AddPactStubForm';
+import Section from '../../molecule/Section';
 
 const StyledMultiSelect = styled(MultiSelect)`
   color: #000;
@@ -69,85 +71,95 @@ const PactPage: FunctionComponent = () => {
   }));
 
   return (
-    <Section>
+    <Main>
       <Title>{`${pact?.provider} Pact`}</Title>
 
-      <Subheader>Route</Subheader>
-      <Paragraph>
-        {route}
-      </Paragraph>
+      <Section>
+        <Subheader>Route</Subheader>
+        <Paragraph>
+          {route}
+        </Paragraph>
+      </Section>
 
-      <Subheader>Active states</Subheader>
-      <StateTable>
-        <tr>
-          <th>State</th>
-          <th>Delete/Add</th>
-        </tr>
-        {pact?.activeStates.map((state) => (
+      <Section>
+        <Subheader>Active states</Subheader>
+        <StateTable>
           <tr>
-            <td>{state}</td>
+            <th>State</th>
+            <th>Delete/Add</th>
+          </tr>
+          {pact?.activeStates.map((state) => (
+            <tr>
+              <td>{state}</td>
+              <td>
+                <MorphingButton onClick={confirmDeleteState(state)}>
+                  Delete &#x25B8;
+                </MorphingButton>
+              </td>
+            </tr>
+          ))}
+          <tr>
             <td>
-              <MorphingButton onClick={confirmDeleteState(state)}>
-                Delete &#x25B8;
+              <StyledMultiSelect
+                options={availableStateOptions}
+                value={statesToAdd}
+                onChange={setStatesToAdd}
+                labelledBy="State(s) to add"
+              />
+            </td>
+            <td>
+              <MorphingButton onClick={confirmAddState}>
+                Add state  &#x25B8;
               </MorphingButton>
             </td>
           </tr>
-        ))}
-        <tr>
-          <td>
-            <StyledMultiSelect
-              options={availableStateOptions}
-              value={statesToAdd}
-              onChange={setStatesToAdd}
-              labelledBy="State(s) to add"
-            />
-          </td>
-          <td>
-            <MorphingButton onClick={confirmAddState}>
-              Add state  &#x25B8;
-            </MorphingButton>
-          </td>
-        </tr>
-      </StateTable>
+        </StateTable>
+      </Section>
 
-      <Subheader>Available interactions</Subheader>
-      <Paragraph>
-        {`${interactions.length} interactions:`}
-      </Paragraph>
+      <Section>
+        <Subheader>Available interactions</Subheader>
+        <Paragraph>
+          {`${interactions.length} interactions:`}
+        </Paragraph>
+        <Table>
+          <tr>
+            <th>Description</th>
+            <th>State</th>
+            <th>Request</th>
+            <th>Response</th>
+            <th>Count*</th>
+          </tr>
+          {interactions.map((interaction) => {
+            const {
+              description, providerState, request,
+              response, counter,
+            } = interaction;
+            return (
+              <tr>
+                <td>{description}</td>
+                <td>{providerState}</td>
+                <td>
+                  <JsonDisplay data={request} />
+                </td>
+                <td>
+                  <JsonDisplay data={response} />
+                </td>
+                <td>{counter}</td>
+              </tr>
+            );
+          })}
+        </Table>
+        <Paragraph>
+          *Count refers to the amount of times the interaction
+          has been matched AND the response given.
+        </Paragraph>
+      </Section>
 
-      <Table>
-        <tr>
-          <th>Description</th>
-          <th>State</th>
-          <th>Request</th>
-          <th>Response</th>
-          <th>Count*</th>
-        </tr>
-        {interactions.map((interaction) => {
-          const {
-            description, providerState, request,
-            response, counter,
-          } = interaction;
-          return (
-            <tr>
-              <td>{description}</td>
-              <td>{providerState}</td>
-              <td>
-                <JsonDisplay data={request} />
-              </td>
-              <td>
-                <JsonDisplay data={response} />
-              </td>
-              <td>{counter}</td>
-            </tr>
-          );
-        })}
-      </Table>
-      <Paragraph>
-        *Count refers to the amount of times the interaction
-        has been matched AND the response given.
-      </Paragraph>
-    </Section>
+      <Section>
+        <Subheader>Add pact</Subheader>
+        <AddPactStubForm providerRoute={route} providerName={pact?.provider} onSubmit={resetData} />
+      </Section>
+    </Main>
   );
 };
 
