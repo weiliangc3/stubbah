@@ -12,7 +12,7 @@ router.use((req: Request, res: Response, next: NextFunction) => {
   next();
 });
 
-router.get('*', (req: Request, res: Response) => {
+router.use('*', (req: Request, res: Response) => {
   const matchedResponse = matchRequestToStub(req);
 
   if (matchedResponse) {

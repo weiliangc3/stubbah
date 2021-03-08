@@ -1,6 +1,5 @@
 import { Request } from 'express';
 import { StubResponse } from '../../classes/types';
-import PactInteraction from '../../classes/PactInteraction';
 import RequestRecord from '../../classes/RequestRecord';
 import { getProviderStub } from './pactStubsService';
 import { getInteractionsForProviderStub, incrementCounterForInteraction } from './pactInteractionsService';
@@ -9,14 +8,14 @@ import MatchedPactInteraction from '../../classes/MatchedPactInteraction';
 const requestsRecords: RequestRecord[] = [];
 
 function matchPactRequestToStub(req: Request): StubResponse|null {
-  const uri = req.url;
-  const route = uri.split(/\//)[1];
+  const uri = req.baseUrl;
+  const route = uri.split(/\//)[2];
   const method = req.method.toLowerCase();
 
   const providerStub = getProviderStub(route);
 
   if (providerStub) {
-    const pathRegex = new RegExp(`${route}/(.+)`);
+    const pathRegex = new RegExp(`/stub/${route}/(.+)`);
     const regexArray = pathRegex.exec(uri);
     const path = `/${regexArray ? regexArray[1] : ''}`;
 

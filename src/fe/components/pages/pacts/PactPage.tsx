@@ -19,6 +19,7 @@ import PactInteraction from '../../../../classes/PactInteraction';
 import JsonDisplay from '../../molecule/JsonDisplay';
 import AddPactStubForm from '../../organism/AddPactStubForm';
 import Section from '../../molecule/Section';
+import PactDropdown from '../../molecule/PactDropdown/PactDropdown';
 
 const StyledMultiSelect = styled(MultiSelect)`
   color: #000;
@@ -75,6 +76,12 @@ const PactPage: FunctionComponent = () => {
       <Title>{`${pact?.provider} Pact`}</Title>
 
       <Section>
+        <ul>
+          {interactions.map((interaction) => (
+            <PactDropdown interaction={interaction} />
+          ))}
+        </ul>
+
         <Subheader>Route</Subheader>
         <Paragraph>
           {route}
