@@ -1,0 +1,32 @@
+{
+  "requestMatchers": [{
+      "type": "url",
+      "matcher": "regex",
+      "value": "/anotherUrl"
+    },
+    {
+      "type": "method",
+      "value": "post"
+    },
+    {
+      "type": "headers",
+      "headers": {
+        "authorization": "someauthtoken"
+      }
+    }
+  ],
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json",
+      "Location": "unusualHeader"
+    },
+    "body": {
+      "nestedValue": {
+        "avalue": 0
+      },
+      "id": "anid",
+      "dynamickey": "#R_EXPR{#jsonPath('somedynamickey', #requestBody)}"
+    }
+  }
+}

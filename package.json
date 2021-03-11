@@ -2,7 +2,7 @@
   "name": "stubbah",
   "version": "1.0.0",
   "description": "It's a stub server+",
-  "main": "index.js",
+  "main": "dist/server/index.js",
   "scripts": {
     "start": "npm run build && node dist/server/index.js",
     "start:https": "npm run build && node dist/server/index.js && node build --https",

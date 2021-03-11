@@ -3,7 +3,8 @@ import {
 } from 'express';
 import bodyParser from 'body-parser';
 import {
-  addStateForProviderByRoute, getInteractionsForRoute, getPotentialStatesForProvider, getProviderStub,
+  addStateForProviderByRoute, getInteractionsForRoute,
+  getPotentialStatesForProvider, getProviderStub,
   getProviderStubMap, loadPact, removeInteractionFromStub,
   removeProviderStub, removeStateForProviderByRoute,
 } from '../../services/pactStubsService';
