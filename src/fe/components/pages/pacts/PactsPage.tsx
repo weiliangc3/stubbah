@@ -60,7 +60,7 @@ const PactsPage: FunctionComponent = () => {
                 </td>
                 <td>
                   <TableLink to={`/pact/route/${pactRoutes[index]}`}>
-                    Manage pact &#x25B8;
+                    Manage pact
                   </TableLink>
                 </td>
               </tr>

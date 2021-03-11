@@ -18,6 +18,6 @@ export function availablePactStatesByRouteEndpoint(route: string): string {
 export function interactionsByPactRouteEndpoint(route: string): string {
   return `${managePactsEndpoint}/${route}/${interactionAccessor}`;
 }
-export function interactionsByRouteAndIdEndpoint(route: string, id: string): string {
+export function interactionsByRouteAndIdEndpoint(route: string, id: number): string {
   return `${managePactsEndpoint}/${route}/${interactionAccessor}/${id}`;
 }

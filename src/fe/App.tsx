@@ -2,7 +2,7 @@ import React, { FunctionComponent } from 'react';
 import {
   BrowserRouter, Redirect, Route, Switch,
 } from 'react-router-dom';
-import styled, { ThemeProvider } from 'styled-components';
+import styled, { createGlobalStyle, ThemeProvider } from 'styled-components';
 import Header from './components/organism/Header';
 import Nav from './components/organism/Nav';
 import GenericPage from './components/pages/GenericPage';
@@ -18,7 +18,6 @@ const MainContainer = styled.div`
   padding: 16px 64px;
   margin: 0 auto;
   display: flex;
-  ${getFromTheme('mainFont')};
   
   @media screen and (max-width: 1366px) {
     flex-direction: column;
@@ -26,8 +25,19 @@ const MainContainer = styled.div`
   }
 `;
 
+const GlobalStyle = createGlobalStyle`
+  body {
+    background-color: ${getFromTheme('bodyBackground')};
+    ${getFromTheme('mainFont')};
+  }
+  a {
+    color: inherit;
+  }
+`;
+
 const App: FunctionComponent = () => (
   <ThemeProvider theme={defaultTheme}>
+    <GlobalStyle />
     <BrowserRouter basename="/manage">
       <Header />
       <MainContainer>

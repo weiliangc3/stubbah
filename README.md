@@ -27,9 +27,9 @@ To start it on port 3000:
 - API to add stubs ✅
 - UI to add stubs ✅
 - API to remove stubs ✅
-- UI to remove stubs ❌
+- UI to remove stubs ✅
 - API to remove provider ✅
-- UI to remove provider ❌
+- UI to remove provider ✅
 - API to add state of provider ✅
 - UI to add state of provider ✅
 - API to remove state of provider ✅

@@ -31,7 +31,7 @@ const CancelButton = styled(Button)`
   }
 `;
 
-const MorphingButton: FunctionComponent<Props> = ({ onClick, children }: Props) => {
+const MorphingButton: FunctionComponent<Props> = ({ onClick, children, table }: Props) => {
   const [active, setActive] = useState<boolean>(false);
 
   const confirmHandler = () => {
@@ -49,9 +49,21 @@ const MorphingButton: FunctionComponent<Props> = ({ onClick, children }: Props) 
       </CancelButton>
     </>
   ) : (
-    <TableButton onClick={() => setActive(true)}>
-      {children}
-    </TableButton>
+    <>
+      {table ? (
+        <TableButton onClick={() => setActive(true)}>
+          {children}
+          {' '}
+          ▸
+        </TableButton>
+      ) : (
+        <button onClick={() => setActive(true)} type="button">
+          {children}
+          {' '}
+          ▸
+        </button>
+      )}
+    </>
   );
 };
 
@@ -59,5 +71,10 @@ export default MorphingButton;
 
 interface Props{
   onClick: Function;
+  table?: boolean;
   children: ReactNode;
 }
+
+MorphingButton.defaultProps = {
+  table: false,
+};

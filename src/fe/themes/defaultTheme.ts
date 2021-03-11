@@ -3,20 +3,24 @@ const chromeColour = '#949398';
 const luxeLemonColour = '#f5df4d';
 const white = '#FFF';
 const black = '#000';
-const primaryFont = `
+const headerFont = `
   font-family: 'Source Sans Pro', sans-serif;
   font-weight: 600;
   font-style: oblique;
+  color: ${spaceCherryColour};
 `;
-const secondaryFont = `
+const subheadingFontColour = chromeColour;
+const subheadingFont = `
   font-family: 'Libre Franklin', sans-serif;
   font-weight: 300;
   font-style: oblique;
+  color: ${subheadingFontColour}
 `;
-const normalFont = `
+const mainFont = `
   font-family: 'ABeeZee', sans-serif;
   font-weight: normal;
   font-style: normal;
+  color: ${black};
 `;
 const formLabelFont = `
   font-family: 'Libre Franklin', sans-serif;
@@ -45,6 +49,17 @@ const tableStyling = `
   & a {
     color: ${spaceCherryColour};
   }
+`;
+const tableCellStyling = `
+  margin: 4px 0;
+  background-color: ${spaceCherryColour};
+  color: ${white};
+`;
+const selectedTableCellColour = chromeColour;
+const selectedTableFontColour = white;
+const selectedTableCellStyling = `
+  background-color: ${selectedTableCellColour} !important;
+  color: ${selectedTableFontColour};
 `;
 const jsonGreen = '#24803c';
 const jsonYellow = '#968d0f';
@@ -78,7 +93,7 @@ const jsonTheme = `
   }
 `;
 const buttonStyling = `
-  ${normalFont};
+  ${mainFont};
   padding: 8px;
   background-color: ${luxeLemonColour};
   border: 2px solid ${chromeColour};
@@ -86,18 +101,22 @@ const buttonStyling = `
 `;
 
 const defaultTheme = {
-  headerBackground: luxeLemonColour,
-  headerFont: primaryFont,
-  headerFontColour: spaceCherryColour,
-  subheadingFont: secondaryFont,
-  subheadingColour: chromeColour,
-  titleColour: spaceCherryColour,
-  mainFont: normalFont,
-  navBackground: white,
-  navFont: secondaryFont,
+  bodyBackground: white,
+  headerFont,
+  subheadingFont,
+  subheadingFontColour,
+  mainFont,
+  navFont: subheadingFont,
   navFontColour: chromeColour,
+  headerBackground: luxeLemonColour,
+  titleColour: spaceCherryColour,
+  navBackground: white,
   tableStyling,
-  linkColour: chromeColour,
+  selectedTableCellStyling,
+  selectedTableCellColour,
+  selectedTableFontColour,
+  tableCellStyling,
+  linkColour: spaceCherryColour,
   jsonTheme,
   formLabelFont,
   errorColour: spaceCherryColour,

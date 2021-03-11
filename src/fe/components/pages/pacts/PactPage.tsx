@@ -16,10 +16,13 @@ import getPotentialStatesForPact from '../../../apiCalls/getPotentialStatesForPa
 import addPactStates from '../../../apiCalls/addPactStates';
 import getInteractionsForPactRoute from '../../../apiCalls/getInteractionsForPactRoute';
 import PactInteraction from '../../../../classes/PactInteraction';
-import JsonDisplay from '../../molecule/JsonDisplay';
 import AddPactStubForm from '../../organism/AddPactStubForm';
 import Section from '../../molecule/Section';
 import PactDropdown from '../../molecule/PactDropdown/PactDropdown';
+import PactDropdownContainer from '../../molecule/PactDropdown/PactDropdownContainer';
+import Clickable from '../../atom/Clickable';
+import FullInteractionsTable from '../../molecule/FullInteractionsTable';
+import deletePact from '../../../apiCalls/deletePact';
 
 const StyledMultiSelect = styled(MultiSelect)`
   color: #000;
@@ -36,6 +39,7 @@ const PactPage: FunctionComponent = () => {
   const [interactions, setInteractions] = useState<PactInteraction[]>([]);
   const [availableStates, setAvailableStates] = useState<string[]>([]);
   const [statesToAdd, setStatesToAdd] = useState<Option[]>([]);
+  const [tableInteractionView, setTableInteractionView] = useState<boolean>(false);
 
   const { route } = useParams<ParamTypes>();
 
@@ -76,12 +80,6 @@ const PactPage: FunctionComponent = () => {
       <Title>{`${pact?.provider} Pact`}</Title>
 
       <Section>
-        <ul>
-          {interactions.map((interaction) => (
-            <PactDropdown interaction={interaction} />
-          ))}
-        </ul>
-
         <Subheader>Route</Subheader>
         <Paragraph>
           {route}
@@ -100,7 +98,7 @@ const PactPage: FunctionComponent = () => {
               <td>{state}</td>
               <td>
                 <MorphingButton onClick={confirmDeleteState(state)}>
-                  Delete &#x25B8;
+                  Delete
                 </MorphingButton>
               </td>
             </tr>
@@ -116,7 +114,7 @@ const PactPage: FunctionComponent = () => {
             </td>
             <td>
               <MorphingButton onClick={confirmAddState}>
-                Add state  &#x25B8;
+                Add state
               </MorphingButton>
             </td>
           </tr>
@@ -128,43 +126,43 @@ const PactPage: FunctionComponent = () => {
         <Paragraph>
           {`${interactions.length} interactions:`}
         </Paragraph>
-        <Table>
-          <tr>
-            <th>Description</th>
-            <th>State</th>
-            <th>Request</th>
-            <th>Response</th>
-            <th>Count*</th>
-          </tr>
-          {interactions.map((interaction) => {
-            const {
-              description, providerState, request,
-              response, counter,
-            } = interaction;
-            return (
-              <tr>
-                <td>{description}</td>
-                <td>{providerState}</td>
-                <td>
-                  <JsonDisplay data={request} />
-                </td>
-                <td>
-                  <JsonDisplay data={response} />
-                </td>
-                <td>{counter}</td>
-              </tr>
-            );
-          })}
-        </Table>
+
+        { tableInteractionView ? (
+          <FullInteractionsTable interactions={interactions} />
+        ) : (
+          <PactDropdownContainer>
+            {interactions.map((interaction) => (
+              <PactDropdown interaction={interaction} route={route} resetData={resetData} />
+            ))}
+          </PactDropdownContainer>
+        ) }
         <Paragraph>
           *Count refers to the amount of times the interaction
           has been matched AND the response given.
         </Paragraph>
+        <Clickable
+          onClick={() => { setTableInteractionView(!tableInteractionView); }}
+          onKeyPress={() => { setTableInteractionView(!tableInteractionView); }}
+          role="button"
+          tabIndex={0}
+        >
+          {tableInteractionView ? 'Change to normal view ▸' : 'Change to table view ▸'}
+        </Clickable>
       </Section>
 
       <Section>
         <Subheader>Add pact</Subheader>
         <AddPactStubForm providerRoute={route} providerName={pact?.provider} onSubmit={resetData} />
+      </Section>
+
+      <Section>
+        <Subheader>Delete Pact</Subheader>
+        <Paragraph>Be careful with this one.</Paragraph>
+        <MorphingButton
+          onClick={() => { deletePact(route).then(resetData); }}
+        >
+          Delete Pact
+        </MorphingButton>
       </Section>
     </Main>
   );
