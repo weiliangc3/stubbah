@@ -1,6 +1,6 @@
 import axios from './axios';
 import { managePactsByRouteEndpoint } from '../../endpoints/managePactEndpoints';
-import Pact from '../../classes/Pact';
+import RawPact from '../../classes/RawPact';
 
-export default (route: string, pact: Pact): Promise<any[]> => axios
+export default (route: string, pact: RawPact): Promise<any[]> => axios
   .post(managePactsByRouteEndpoint(route), pact);

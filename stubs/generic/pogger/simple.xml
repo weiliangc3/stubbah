@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<stub-mapping xmlns="garbageunusedtext" version="1">
+    <request-matcher>
+        <url matcher="REGEX">/anentireurl</url>
+        <method>POST</method>
+        <headers>
+            <header name="authorization">someauthtoken</header>
+        </headers>
+    </request-matcher>
+    <response>
+        <status code="200"/>
+        <headers>
+            <header name="Content-Type">application/json</header>
+            <header name="Location">anUnusualHeader</header>
+        </headers>
+        <body><![CDATA[
+            {
+                "nestedValue": {
+                    "avalue": 0,
+                },
+                "id": "anid"
+            }
+		]]></body>
+    </response>
+</stub-mapping>

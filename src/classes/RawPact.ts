@@ -1,6 +1,6 @@
 import { PactConsumer, PactProvider, RawPactInteraction } from './types';
 
-export default class Pact {
+export default class RawPact {
   provider: PactProvider;
 
   consumer: PactConsumer;

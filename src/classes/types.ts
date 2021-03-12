@@ -30,3 +30,10 @@ export interface RawPactInteraction {
   request: PactStubRequest;
   response: StubResponse;
 }
+
+export interface Matcher {
+  type: string;
+  value?: string;
+  matcher?: string;
+  headers?: Record<string, string>;
+}

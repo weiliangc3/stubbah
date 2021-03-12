@@ -3,40 +3,22 @@ import {
 } from 'express';
 import bodyParser from 'body-parser';
 import {
-  addStateForProviderByRoute, getInteractionsForRoute,
-  getPotentialStatesForProvider, getProviderStub,
-  getProviderStubMap, loadPact, removeInteractionFromStub,
-  removeProviderStub, removeStateForProviderByRoute,
-} from '../../services/pactProvidersService';
-import RawPact from '../../../classes/RawPact';
-import { interactionAccessor, statesAccessor, statesAvailableAccessor } from '../../../endpoints/managePactEndpoints';
+  getProvider, getProviders, getStubsForRoute, loadStub,
+  removeStubFromProvider, removeProvider, addStateForProviderByRoute,
+  removeStateForProviderByRoute, getPotentialStatesForProvider,
+} from '../../services/genericProvidersService';
+import GenericStub from '../../../classes/GenericStub';
+import { statesAccessor, statesAvailableAccessor, stubsAccessor } from '../../../endpoints/manageStubEndpoints';
 
 const router: Router = Router();
 
 router.get('/', (req: Request, res: Response) => {
-  res.send(getProviderStubMap());
+  res.send(getProviders());
 });
 
 router.get('/:route', (req: Request, res: Response) => {
   const { route } = req.params;
-  res.send(getProviderStub(route));
-});
-
-router.post('/:route', bodyParser.json(), (req: Request, res: Response) => {
-  let pactStub: RawPact;
-  const { route } = req.params;
-  try {
-    const requestBody: any = req.body;
-    if (!route) {
-      throw new Error();
-    }
-    pactStub = new RawPact(requestBody);
-  } catch {
-    return res.status(404).send(`No route ${route} found`);
-  }
-
-  loadPact(pactStub, route);
-  return res.send(getProviderStub(route));
+  res.send(getProvider(route));
 });
 
 router.delete('/:route', (req: Request, res: Response) => {
@@ -49,15 +31,32 @@ router.delete('/:route', (req: Request, res: Response) => {
     return res.status(404).send(`No route ${route} found`);
   }
 
-  return res.send(removeProviderStub(route));
+  return res.send(removeProvider(route));
 });
 
-router.get(`/:route/${interactionAccessor}`, (req: Request, res: Response) => {
+router.post(`/:route/${stubsAccessor}`, bodyParser.json(), (req: Request, res: Response) => {
+  let stub: GenericStub;
   const { route } = req.params;
-  return res.send(getInteractionsForRoute(route));
+  try {
+    if (!route) {
+      return res.status(404).send('No route provided');
+    }
+    stub = req.body;
+  } catch {
+    return res.status(400).send('Stub format is invalid');
+  }
+
+  if (!stub.name) { stub.name = 'From API (no name)'; }
+  loadStub(stub, route);
+  return res.send(getProvider(route));
 });
 
-router.delete(`/:route/${interactionAccessor}/:id`, (req: Request, res: Response) => {
+router.get(`/:route/${stubsAccessor}`, (req: Request, res: Response) => {
+  const { route } = req.params;
+  return res.send(getStubsForRoute(route));
+});
+
+router.delete(`/:route/${stubsAccessor}/:id`, (req: Request, res: Response) => {
   const { route, id } = req.params;
   try {
     if (!route) {
@@ -67,9 +66,11 @@ router.delete(`/:route/${interactionAccessor}/:id`, (req: Request, res: Response
     return res.status(404).send(`No route ${route} found`);
   }
 
-  removeInteractionFromStub(route, parseInt(id, 10));
-  return res.send(getProviderStub(route));
+  removeStubFromProvider(route, parseInt(id, 10));
+  return res.send(getProvider(route));
 });
+
+// State endpoints
 
 router.post(`/:route/${statesAccessor}`, bodyParser.json(), (req: Request, res: Response) => {
   const { route } = req.params;
@@ -78,11 +79,11 @@ router.post(`/:route/${statesAccessor}`, bodyParser.json(), (req: Request, res: 
       throw new Error();
     }
   } catch {
-    return res.status(404).send('No route provided');
+    return res.status(404).send(`No route ${route} found`);
   }
 
   addStateForProviderByRoute(req.body.state, route);
-  return res.send(getProviderStub(route));
+  return res.send(getProvider(route));
 });
 
 router.delete(`/:route/${statesAccessor}`, bodyParser.json(), (req: Request, res: Response) => {
@@ -96,10 +97,12 @@ router.delete(`/:route/${statesAccessor}`, bodyParser.json(), (req: Request, res
   }
 
   removeStateForProviderByRoute(req.body.state, route);
-  return res.send(getProviderStub(route));
+  return res.send(getProvider(route));
 });
 
-router.get(`/:route/${statesAccessor}/${statesAvailableAccessor}`, (req: Request, res: Response) => {
+router.get(`/:route/${statesAccessor}/${statesAvailableAccessor}`, (
+  req: Request, res: Response,
+) => {
   const { route } = req.params;
   try {
     if (!route) {

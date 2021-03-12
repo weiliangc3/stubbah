@@ -1,4 +1,4 @@
-export default class StoredProviderStub {
+export default class PactProvider {
   provider: string;
 
   interactions : number[];

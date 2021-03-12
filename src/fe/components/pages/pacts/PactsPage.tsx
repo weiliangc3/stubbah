@@ -1,5 +1,5 @@
 import React, { FunctionComponent, useEffect, useState } from 'react';
-import StoredProviderStub from '../../../../classes/StoredProviderStub';
+import PactProvider from '../../../../classes/PactProvider';
 import getPacts from '../../../apiCalls/getPacts';
 import Title from '../../molecule/Title';
 import Paragraph from '../../molecule/Paragraph';
@@ -7,7 +7,7 @@ import Main from '../../molecule/Main';
 import Table, { TableLink } from '../../molecule/Table';
 
 const PactsPage: FunctionComponent = () => {
-  const [pacts, setPacts] = useState<Record<string, StoredProviderStub>>({});
+  const [pacts, setPacts] = useState<Record<string, PactProvider>>({});
 
   useEffect(() => {
     getPacts().then((data) => {
@@ -16,7 +16,7 @@ const PactsPage: FunctionComponent = () => {
   }, []);
 
   const pactRoutes: string[] = [];
-  const pactsArray: StoredProviderStub[] = Object.keys(pacts).map((key) => {
+  const pactsArray: PactProvider[] = Object.keys(pacts).map((key) => {
     pactRoutes.push(key);
     return pacts[key];
   });

@@ -1,0 +1,31 @@
+{
+  "requestMatchers": [{
+      "type": "url",
+      "matcher": "regex",
+      "value": "/anotherUrl"
+    },
+    {
+      "type": "method",
+      "value": "get"
+    },
+    {
+      "type": "headers",
+      "headers": {
+        "Accept": "*/*"
+      }
+    }
+  ],
+  "response": {
+    "status": 200,
+    "headers": {
+      "Content-Type": "application/json",
+      "Location": "unusualHeader"
+    },
+    "body": {
+      "nestedValue": {
+        "avalue": 0
+      },
+      "id": "anid"
+    }
+  }
+}

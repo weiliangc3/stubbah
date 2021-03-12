@@ -1,11 +1,11 @@
-import Pact from '../../classes/Pact';
-import StoredProviderStub from '../../classes/StoredProviderStub';
+import RawPact from '../../classes/RawPact';
+import PactProvider from '../../classes/PactProvider';
 import PactToLoad from '../../classes/PactToLoad';
 import { getLocalPactFiles } from './staticFileLoaderService';
 import { addPactInteractionsToProviderStub, getInteractionsForProviderStub } from './pactInteractionsService';
 import PactInteraction from '../../classes/PactInteraction';
 
-const providerStubs: Record<string, StoredProviderStub> = {};
+const providerStubs: Record<string, PactProvider> = {};
 
 const localPacts: PactToLoad[] = getLocalPactFiles();
 localPacts.forEach((localPact: PactToLoad) => {
@@ -13,20 +13,20 @@ localPacts.forEach((localPact: PactToLoad) => {
   loadPact(localPact.pact, localPact.route);
 });
 
-export function getProviderStubMap(): Record<string, StoredProviderStub> {
+export function getProviderStubMap(): Record<string, PactProvider> {
   return providerStubs;
 }
 
-export function getProviderStub(route: string): StoredProviderStub {
+export function getProviderStub(route: string): PactProvider {
   return providerStubs[route];
 }
 
-export function removeProviderStub(route: string): Record<string, StoredProviderStub> {
+export function removeProviderStub(route: string): Record<string, PactProvider> {
   delete providerStubs[route];
   return providerStubs;
 }
 
-export function loadPact(pact: Pact, route: string): boolean {
+export function loadPact(pact: RawPact, route: string): boolean {
   const providerStub = getProviderStub(route);
   if (providerStub) {
     if (providerStub.provider !== pact.provider.name) {
@@ -40,25 +40,25 @@ export function loadPact(pact: Pact, route: string): boolean {
     return true;
   }
 
-  const newProviderStub = new StoredProviderStub(pact.provider.name, route);
+  const newProviderStub = new PactProvider(pact.provider.name, route);
   providerStubs[route] = addPactInteractionsToProviderStub(newProviderStub, pact);
   return true;
 }
 
 export function removeInteractionFromStub(route: string, id: number) {
-  const providerStub: StoredProviderStub = getProviderStub(route);
+  const providerStub: PactProvider = getProviderStub(route);
   providerStub.removeInteraction(id);
 }
 
 export function addStateForProviderByRoute(state: string, route: string): void {
-  const provider: StoredProviderStub = getProviderStub(route);
+  const provider: PactProvider = getProviderStub(route);
   if (provider && !provider.activeStates.includes(state)) {
     provider.activeStates.push(state);
   }
 }
 
 export function removeStateForProviderByRoute(state: string, route: string): void {
-  const provider: StoredProviderStub = getProviderStub(route);
+  const provider: PactProvider = getProviderStub(route);
   if (provider) {
     provider.activeStates = provider.activeStates.filter((_state) => _state !== state);
   }

@@ -30,6 +30,8 @@ To start it on port 3000:
 - UI to remove stubs ✅
 - API to remove provider ✅
 - UI to remove provider ✅
+- API to add provider ✅
+- UI to add provider ❌
 - API to add state of provider ✅
 - UI to add state of provider ✅
 - API to remove state of provider ✅
@@ -41,20 +43,22 @@ To start it on port 3000:
 
 ### Generic stubs
 
-- Stores stubs ❌
+- Stores stubs ✅
 - Matches stubs to request ❌
 - Support regex route matching ❌
 - Support method matching ❌
 - Support body matching ❌
 - UI to look at stored stubs ❌
-- Add stubs by folder ❌
-- API to add stubs ❌
+- Add stubs by folder ✅
+- API to add stubs ✅
 - UI to add stubs ❌
-- API to remove stubs ❌
+- API to remove stubs ✅
 - UI to remove stubs ❌
-- API to add state of provider ❌
+- API to add state of provider ✅
 - UI to add state of provider ❌
-- API to remove state of provider ❌
+- API to add provider ✅
+- UI to add provider ❌
+- API to remove state of provider ✅
 - UI to remove state of provider ❌
 - Counts/captures requests, and what stubs they match etc ❌
 - UI to look at count/captured requests ❌

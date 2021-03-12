@@ -1,11 +1,11 @@
-import Pact from './Pact';
+import RawPact from './RawPact';
 
 export default class PactToLoad {
-  pact: Pact;
+  pact: RawPact;
 
   route: string;
 
-  constructor(pact: Pact, route: string) {
+  constructor(pact: RawPact, route: string) {
     this.pact = pact;
     this.route = route;
   }

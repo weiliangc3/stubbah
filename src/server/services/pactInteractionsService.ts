@@ -1,6 +1,6 @@
-import Pact from '../../classes/Pact';
+import RawPact from '../../classes/RawPact';
 import PactInteraction from '../../classes/PactInteraction';
-import StoredProviderStub from '../../classes/StoredProviderStub';
+import PactProvider from '../../classes/PactProvider';
 
 const pactInteractions: Record<number, PactInteraction> = {};
 
@@ -9,8 +9,8 @@ let idCounter = 0;
 // Creates records for each interaction in the pact, and adds the indexes for each
 // interaction to the provider stub and returns the provider stub.
 export function addPactInteractionsToProviderStub(
-  providerStub: StoredProviderStub, pactToLoad: Pact,
-): StoredProviderStub {
+  providerStub: PactProvider, pactToLoad: RawPact,
+): PactProvider {
   pactToLoad.interactions.forEach((rawPactInteraction) => {
     const id = idCounter + 1;
     idCounter += 1;
@@ -28,7 +28,7 @@ export function getInteractions(interactionIndexes: number[]): PactInteraction[]
   return interactionIndexes.map((index) => pactInteractions[index]);
 }
 
-export function getInteractionsForProviderStub(provider: StoredProviderStub): PactInteraction[] {
+export function getInteractionsForProviderStub(provider: PactProvider): PactInteraction[] {
   return getInteractions(provider.interactions);
 }
 

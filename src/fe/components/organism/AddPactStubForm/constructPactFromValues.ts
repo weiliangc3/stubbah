@@ -1,9 +1,9 @@
-import Pact from '../../../../classes/Pact';
+import RawPact from '../../../../classes/RawPact';
 import { FormValues as PactStubFormValues } from './PactStubFormValues';
 
 const constructPactFromValues = (
   values: PactStubFormValues, providerName: string,
-): Pact => {
+): RawPact => {
   const requestHeaders = JSON.parse(values.requestHeaders);
   const responseHeaders = JSON.parse(values.responseHeaders);
   let responseBody;
@@ -13,7 +13,7 @@ const constructPactFromValues = (
     responseBody = values.responseBody;
   }
 
-  return new Pact({
+  return new RawPact({
     provider: {
       name: providerName,
     },

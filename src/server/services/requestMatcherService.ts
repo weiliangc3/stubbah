@@ -1,7 +1,7 @@
 import { Request } from 'express';
 import { StubResponse } from '../../classes/types';
 import RequestRecord from '../../classes/RequestRecord';
-import { getProviderStub } from './pactStubsService';
+import { getProviderStub } from './pactProvidersService';
 import { getInteractionsForProviderStub, incrementCounterForInteraction } from './pactInteractionsService';
 import MatchedPactInteraction from '../../classes/MatchedPactInteraction';
 

@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import MultiSelect from 'react-multi-select-component';
 import { Option } from 'react-multi-select-component/dist/lib/interfaces';
-import StoredProviderStub from '../../../../classes/StoredProviderStub';
+import PactProvider from '../../../../classes/PactProvider';
 import getPact from '../../../apiCalls/getPact';
 import deletePactState from '../../../apiCalls/deletePactState';
 import Title from '../../molecule/Title';
@@ -35,7 +35,7 @@ const StateTable = styled(Table)`
 `;
 
 const PactPage: FunctionComponent = () => {
-  const [pact, setPact] = useState<StoredProviderStub | null>(null);
+  const [pact, setPact] = useState<PactProvider | null>(null);
   const [interactions, setInteractions] = useState<PactInteraction[]>([]);
   const [availableStates, setAvailableStates] = useState<string[]>([]);
   const [statesToAdd, setStatesToAdd] = useState<Option[]>([]);
