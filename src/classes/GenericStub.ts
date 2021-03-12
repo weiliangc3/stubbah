@@ -1,5 +1,4 @@
-import Matcher from './Matcher';
-import { StubResponse } from './types';
+import { Matcher, StubResponse } from './types';
 
 export default class GenericStub {
   requestMatchers: Matcher[];

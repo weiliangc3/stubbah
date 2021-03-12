@@ -4,28 +4,27 @@ import RequestRecord from '../../classes/RequestRecord';
 import { getProviderStub } from './pactProvidersService';
 import { getInteractionsForProviderStub, incrementCounterForInteraction } from './pactInteractionsService';
 import MatchedPactInteraction from '../../classes/MatchedPactInteraction';
+import { getStubsForProvider } from './genericStubsService';
+import { getProvider } from './genericProvidersService';
+import { matchAll } from './genericMatcherService';
+import { getRouteFromBaseUrl } from '../utils/routeUtils';
+import makeMatchersFromInteraction from '../utils/makeMatchersFromInteraction';
 
 const requestsRecords: RequestRecord[] = [];
 
 function matchPactRequestToStub(req: Request): StubResponse|null {
-  const uri = req.baseUrl;
-  const route = uri.split(/\//)[2];
-  const method = req.method.toLowerCase();
+  const route = getRouteFromBaseUrl(req);
 
   const providerStub = getProviderStub(route);
 
   if (providerStub) {
-    const pathRegex = new RegExp(`/stub/${route}/(.+)`);
-    const regexArray = pathRegex.exec(uri);
-    const path = `/${regexArray ? regexArray[1] : ''}`;
-
     const providerInteractions = getInteractionsForProviderStub(providerStub);
-    const providerActiveStates = providerStub.activeStates;
 
     const matchingInteractions = providerInteractions
-      .filter((interaction) => interaction.request.path === path
-        && interaction.request.method.toLowerCase() === method
-        && providerActiveStates.includes(interaction.providerState));
+      .filter((interaction) => {
+        const matchers = makeMatchersFromInteraction(interaction);
+        return matchAll(req, matchers, providerStub);
+      });
 
     if (matchingInteractions.length > 0) {
       console.log(`Provider interactions matched with ${matchingInteractions.length} pact interaction(s)`);
@@ -40,10 +39,34 @@ function matchPactRequestToStub(req: Request): StubResponse|null {
   return null;
 }
 
+function matchRequestToGenericStub(req: Request): StubResponse|null {
+  const route = getRouteFromBaseUrl(req);
+
+  const provider = getProvider(route);
+
+  if (provider) {
+    const stubs = getStubsForProvider(provider);
+
+    for (let index = 0; index < stubs.length; index += 1) {
+      const stub = stubs[index];
+      const stubMatchers = stubs[index].requestMatchers;
+
+      if (matchAll(req, stubMatchers, provider)) {
+        return stub.response;
+      }
+    }
+  }
+  return null;
+}
+
 export function matchRequestToStub(req: Request): StubResponse|null {
-  const matchedPactResponse = matchPactRequestToStub(req);
-  if (matchedPactResponse) {
-    return matchedPactResponse;
+  let matchedResponse = matchPactRequestToStub(req);
+  if (matchedResponse) {
+    return matchedResponse;
+  }
+  matchedResponse = matchRequestToGenericStub(req);
+  if (matchedResponse) {
+    return matchedResponse;
   }
 
   requestsRecords.push(new RequestRecord(req));

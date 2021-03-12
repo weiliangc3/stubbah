@@ -9,13 +9,13 @@ export interface PactConsumer {
 export interface PactStubRequest {
   method: string;
   path: string;
-  headers?: Record<string, unknown>;
+  headers?: Record<string, string>;
   body?: any;
 }
 
 export interface StubResponse {
   status: number;
-  header?: Record<string, unknown>;
+  header?: Record<string, string>;
   body?: any;
 }
 
