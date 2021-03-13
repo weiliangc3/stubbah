@@ -44,10 +44,10 @@ To start it on port 3000:
 ### Generic stubs
 
 - Stores stubs ✅
-- Matches stubs to request ❌
-- Support regex route matching ❌
-- Support method matching ❌
-- Support body matching ❌
+- Matches stubs to request ✅
+- Support regex route matching ✅
+- Support method matching ✅
+- Support body matching ✅
 - UI to look at stored stubs ❌
 - Add stubs by folder ✅
 - API to add stubs ✅
@@ -64,6 +64,7 @@ To start it on port 3000:
 - UI to look at count/captured requests ❌
 - Counter for amount of times a stub is triggered on the display stub page ❌
 - Reset counter for amount of times a stub is triggered on the display stub page ❌
+- Variables within stubs ❌
 
 ### Pie in the sky ideas
 
